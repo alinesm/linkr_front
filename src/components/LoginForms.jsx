@@ -11,7 +11,7 @@ export default function LoginForms() {
         email: '',
         password: ''
     })
-    const { setToken } = React.useContext(AuthContext)
+    const { setUser } = React.useContext(AuthContext)
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
 
@@ -25,12 +25,11 @@ export default function LoginForms() {
     }
 
     function didLogin(a) {
-        setToken(a.data)
+        setUser(a.data)
         navigate("/home")
     }
 
     function doLogin(e) {
-        alert("oi")
         setSubmited(true)
         e.preventDefault();
         const postLogin = axios.post(`${process.env.REACT_APP_API_URL}sign-in`, {
