@@ -16,6 +16,11 @@ export default function LoginForms() {
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
 
+    if(localStorage.getItem('userSessionInfoLinkr')){
+        setUser(JSON.parse(localStorage.getItem('userSessionInfoLinkr')))
+        navigate("/timeline")
+    }
+
     function handleForm(e) {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
@@ -28,6 +33,8 @@ export default function LoginForms() {
     function didLogin(a) {
         setUser(a.data)
         navigate("/timeline")
+        const userSessionInfoLinkr = JSON.stringify(a.data)
+        localStorage.setItem('userSessionInfoLinkr', userSessionInfoLinkr);
     }
 
     function doLogin(e) {

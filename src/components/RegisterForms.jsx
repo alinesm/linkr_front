@@ -16,6 +16,10 @@ export default function RegisterForms() {
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
 
+    if(localStorage.getItem('userSessionInfoLinkr')){
+        navigate("/timeline")
+    }
+
     function handleForm(e) {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
