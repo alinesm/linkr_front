@@ -76,7 +76,7 @@ export default function LoginForms() {
                         First time? Create an account!
                     </p>
                 </StyledLink>
-                <LikeButton/>
+              
             </LoginFormDiv>
         </RightSideDiv>
     );
