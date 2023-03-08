@@ -89,8 +89,7 @@ export default function RegisterForms() {
                     <p data-test="login-link">
                         Switch back to log in
                     </p>
-                </StyledLink>
-                <LikeButton/>
+                </StyledLink>               
             </RegisterFormDiv>
         </RightSideDiv>
     );

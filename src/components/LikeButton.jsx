@@ -111,10 +111,7 @@ const Likes = styled.div`
    align-items: center;
    margin-top: 10px;
    gap: 5px;
-
    width: 50px;
-   background-color: red;
-   
 `
 
 const Tooltip = styled(Tippy)`
