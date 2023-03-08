@@ -85,7 +85,7 @@ export default function RegisterForms() {
                     >{submited ? <Loading /> : "Sign Up"}</button>
                 </form>
                 <StyledLink to="/">
-                    <p>
+                    <p data-test="login-link">
                         Switch back to log in
                     </p>
                 </StyledLink>
