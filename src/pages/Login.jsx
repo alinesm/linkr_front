@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import LoginForms from "../components/LoginForms";
+import LikeButton from "../components/LikeButton";
 import LinkrIntro from "../components/LinkrIntro";
+
 
 export default function Login() {
     return(
