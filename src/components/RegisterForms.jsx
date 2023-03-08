@@ -3,53 +3,47 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { AuthContext } from "../providers/auth";
 import Loading from "./Loading";
 
-export default function LoginForms() {
+export default function RegisterForms() {
     const [form, setForm] = React.useState({
         email: '',
-        password: ''
+        password: '',
+        user_name: '',
+        image_url: ''
     })
-    const { setUser } = React.useContext(AuthContext)
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
 
     function handleForm(e) {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
-
-    function failedLogin(e) {
+    function failedRegister(e) {
         alert(e.response.data)
         setSubmited(false)
     }
-
-    function didLogin(a) {
-        setUser(a.data)
-        navigate("/home")
-    }
-
-    function doLogin(e) {
+    function doRegister(e) {
         setSubmited(true)
         e.preventDefault();
-        const postLogin = axios.post(`${process.env.REACT_APP_API_URL}sign-in`, {
+        const registerPost = axios.post(`${process.env.REACT_APP_API_URL}sign-up`, {
             email: form.email,
-            password: form.password
+            password: form.password,
+            user_name: form.user_name,
+            image_url: form.image_url
         })
-        // se der tudo certo com a requisição, vai para a página home
-        postLogin.then((answer) => didLogin(answer))
-        postLogin.catch((error) => failedLogin(error))
+        registerPost.then(() => navigate("/"))
+        registerPost.catch((e) => failedRegister(e))
     }
     return (
         <RightSideDiv>
             <LoginFormDiv>
-                <form onSubmit={doLogin}>
+                <form onSubmit={doRegister}>
                     <input
                         disabled={false}
                         name="email"
                         type="email"
                         required
-                        placeholder="e-mail"
+                        placeholder="E-mail"
                         onChange={handleForm}
                         value={form.email}
                     />
@@ -58,18 +52,36 @@ export default function LoginForms() {
                         name="password"
                         type="password"
                         required
-                        placeholder="password"
+                        placeholder="Senha"
                         onChange={handleForm}
                         value={form.password}
+                    />
+                    <input
+                        disabled={false}
+                        name="user_name"
+                        type="text"
+                        required
+                        placeholder="username"
+                        onChange={handleForm}
+                        value={form.user_name}
+                    />
+                    <input
+                        disabled={false}
+                        name="image_url"
+                        type="url"
+                        required
+                        placeholder="picture url"
+                        onChange={handleForm}
+                        value={form.image_url}
                     />
                     <button
                         disabled={false}
                         type="submit"
-                    >{submited ? <Loading /> : "Log in"}</button>
+                    >{submited ? <Loading /> : "Sign Up"}</button>
                 </form>
-                <StyledLink to="/sign-up">
+                <StyledLink to="/">
                     <p>
-                        First time? Create an account!
+                        Switch back to log in
                     </p>
                 </StyledLink>
             </LoginFormDiv>
