@@ -10,16 +10,30 @@ export default function LikeButton() {
     const [postLikes, setPostLikes] = useState([])
     const [users, setUsers] = useState([])
     const [liked, setLiked] = useState(false)
+    const [reload, setReload] = useState([])
 
     const Postid = 3 // pegar depois na página dos posts o post id
 
-    const userToken = 'danniel4' // trocar depois para o que vier do login
+    const userToken = 'danniel10' // trocar depois para o que vier do login
+
+    const userId = 31 // pegar do estado
 
     useEffect(() => {
         getPostLikes()
+    }, [reload])
 
+    const token = 'efe5e2ee-0376-4c06-b102-f16f99223a48' // pegar do estado
 
-    }, [])
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    function likePost() {
+        axios.post(`${process.env.REACT_APP_API_URL}/like/${Postid}`, {userId}, config)
+        .then(() => setReload([]))
+    }
 
     function getPostLikes() {
         axios.get(`${process.env.REACT_APP_API_URL}/posts/${Postid}`)
@@ -71,7 +85,7 @@ export default function LikeButton() {
             {users.length > 0 &&
                 <Tooltip content={users} placement='bottom'>
                     <Likes>
-                        {liked ? <AiFillHeart/>   : <AiOutlineHeart />
+                        {liked ? <AiFillHeart  cursor={'pointer'} />   : <AiOutlineHeart onClick={likePost} cursor={'pointer'}  />
                         }
                           {postLikes.length} likes
                     </Likes>
@@ -85,8 +99,17 @@ export default function LikeButton() {
 }
 
 const Likes = styled.div`
-    color: red,
+   width: inherit;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+   margin-top: 10px;
+   gap: 5px;
 
+   width: 50px;
+   background-color: red;
+   
 `
 
 const Tooltip = styled(Tippy)`
@@ -97,8 +120,9 @@ const Tooltip = styled(Tippy)`
     font-size: 11px;
     color:#505050;
     border-radius: 3px;
+    
     .tippy-arrow {
-        color: rgba(255, 255, 255, 0.9)
+        color: rgba(255, 255, 255, 0.9);
     }
 
 `

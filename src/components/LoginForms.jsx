@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { AuthContext } from "../providers/auth";
 import Loading from "./Loading";
+import LikeButton from "./LikeButton";
 
 export default function LoginForms() {
     const [form, setForm] = React.useState({
@@ -33,7 +34,7 @@ export default function LoginForms() {
         alert("oi")
         setSubmited(true)
         e.preventDefault();
-        const postLogin = axios.post(`${process.env.REACT_APP_API_URL}sign-in`, {
+        const postLogin = axios.post(`${process.env.REACT_APP_API_URL}/sign-in`, {
             email: form.email,
             password: form.password
         })
@@ -73,6 +74,7 @@ export default function LoginForms() {
                         First time? Create an account!
                     </p>
                 </StyledLink>
+                <LikeButton/>
             </LoginFormDiv>
         </RightSideDiv>
     );
