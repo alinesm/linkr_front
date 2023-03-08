@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import TitleText from "../components/TitleText";
 import LoginForms from "../components/LoginForms";
+import LikeButton from "../components/LikeButton";
 
 export default function Login() {
     return (
@@ -10,7 +11,7 @@ export default function Login() {
             <LoginForms />
             <StyledLink to="/cadastro">
                 <p>
-                    Primeira vez? Cadastre-se!
+                    Primeira vez? Cadastre-se! <LikeButton/>
                 </p>
             </StyledLink>
         </LoginDiv>
