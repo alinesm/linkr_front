@@ -26,7 +26,7 @@ export default function LoginForms() {
 
     function didLogin(a) {
         setUser(a.data)
-        navigate("/home")
+        navigate("/timeline")
     }
 
     function doLogin(e) {
