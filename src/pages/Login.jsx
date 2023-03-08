@@ -6,10 +6,10 @@ import Header from '../components/Header';
 
 
 export default function Login() {
-    return(
+    return (
         <LoginDiv>
-            <LinkrIntro/>
-            <LoginForms/>
+            <LinkrIntro />
+            <LoginForms />
         </LoginDiv>
     )
 }

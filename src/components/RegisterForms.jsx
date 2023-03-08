@@ -17,7 +17,7 @@ export default function RegisterForms() {
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
 
-    if (localStorage.getItem('userSessionInfoLinkr')) {
+    if(localStorage.getItem('userSessionInfoLinkr')){
         navigate("/timeline")
     }
 
@@ -41,11 +41,11 @@ export default function RegisterForms() {
         registerPost.catch((e) => failedRegister(e))
     }
     return (
-        <RightSideDiv>
+        <RightSideDiv>         
             <RegisterFormDiv>
                 <form onSubmit={doRegister}>
                     <input
-                        data-test="email"
+                        data-test="email" 
                         disabled={false}
                         name="email"
                         type="email"
@@ -94,7 +94,7 @@ export default function RegisterForms() {
                     <p data-test="login-link">
                         Switch back to log in
                     </p>
-                </StyledLink>
+                </StyledLink>               
             </RegisterFormDiv>
         </RightSideDiv>
     );
