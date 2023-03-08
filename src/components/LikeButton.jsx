@@ -25,6 +25,8 @@ export default function LikeButton() {
         getPostLikes()
     }, [reload])
 
+    console.log(user)
+
 
     const config = {
         headers: {
@@ -36,12 +38,12 @@ export default function LikeButton() {
        if(liked === 'liked') {
         setLiked(false)
        }
-        axios.post(`${process.env.REACT_APP_API_URL}/like/${Postid}`, {userId}, config)
+        axios.post(`${process.env.REACT_APP_API_URL}like/${Postid}`, {userId}, config)
         .then(() => setReload([]))
     }
 
     function getPostLikes() {
-        axios.get(`${process.env.REACT_APP_API_URL}/posts/${Postid}`)
+        axios.get(`${process.env.REACT_APP_API_URL}posts/${Postid}`)
             .then((res) => {
                 const posts = res.data
                 setPostLikes(posts)

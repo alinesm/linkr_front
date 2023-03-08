@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Loading from "./Loading";
 import LikeButton from "./LikeButton";
+import Header from "./Header";
 
 export default function RegisterForms() {
     const [form, setForm] = React.useState({
@@ -16,7 +17,7 @@ export default function RegisterForms() {
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
 
-    if(localStorage.getItem('userSessionInfoLinkr')){
+    if (localStorage.getItem('userSessionInfoLinkr')) {
         navigate("/timeline")
     }
 
@@ -44,7 +45,7 @@ export default function RegisterForms() {
             <RegisterFormDiv>
                 <form onSubmit={doRegister}>
                     <input
-                        data-test="email" 
+                        data-test="email"
                         disabled={false}
                         name="email"
                         type="email"
@@ -93,7 +94,7 @@ export default function RegisterForms() {
                     <p data-test="login-link">
                         Switch back to log in
                     </p>
-                </StyledLink>               
+                </StyledLink>
             </RegisterFormDiv>
         </RightSideDiv>
     );
