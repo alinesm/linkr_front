@@ -45,6 +45,7 @@ export default function LoginForms() {
             <LoginFormDiv>
                 <form onSubmit={doLogin}>
                     <input
+                        data-test="email" 
                         disabled={false}
                         name="email"
                         type="email"
@@ -54,6 +55,7 @@ export default function LoginForms() {
                         value={form.email}
                     />
                     <input
+                        data-test="password"
                         disabled={false}
                         name="password"
                         type="password"
@@ -63,12 +65,13 @@ export default function LoginForms() {
                         value={form.password}
                     />
                     <button
+                        data-test="login-btn"
                         disabled={false}
                         type="submit"
                     >{submited ? <Loading /> : "Log in"}</button>
                 </form>
                 <StyledLink to="/sign-up">
-                    <p>
+                    <p data-test="sign-up-link">
                         First time? Create an account!
                     </p>
                 </StyledLink>

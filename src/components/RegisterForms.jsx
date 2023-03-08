@@ -36,9 +36,10 @@ export default function RegisterForms() {
     }
     return (
         <RightSideDiv>
-            <LoginFormDiv>
+            <RegisterFormDiv>
                 <form onSubmit={doRegister}>
                     <input
+                        data-test="email" 
                         disabled={false}
                         name="email"
                         type="email"
@@ -48,6 +49,7 @@ export default function RegisterForms() {
                         value={form.email}
                     />
                     <input
+                        data-test="password"
                         disabled={false}
                         name="password"
                         type="password"
@@ -57,6 +59,7 @@ export default function RegisterForms() {
                         value={form.password}
                     />
                     <input
+                        data-test="username"
                         disabled={false}
                         name="user_name"
                         type="text"
@@ -66,6 +69,7 @@ export default function RegisterForms() {
                         value={form.user_name}
                     />
                     <input
+                        data-test="picture-url"
                         disabled={false}
                         name="image_url"
                         type="url"
@@ -75,6 +79,7 @@ export default function RegisterForms() {
                         value={form.image_url}
                     />
                     <button
+                        data-test="sign-up-btn"
                         disabled={false}
                         type="submit"
                     >{submited ? <Loading /> : "Sign Up"}</button>
@@ -84,7 +89,7 @@ export default function RegisterForms() {
                         Switch back to log in
                     </p>
                 </StyledLink>
-            </LoginFormDiv>
+            </RegisterFormDiv>
         </RightSideDiv>
     );
 }
@@ -97,7 +102,7 @@ const RightSideDiv = styled.div`
     height:100vh;
 `;
 
-const LoginFormDiv = styled.div`
+const RegisterFormDiv = styled.div`
     margin:auto;
     width:80%;
     form{
