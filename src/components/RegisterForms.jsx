@@ -3,55 +3,48 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { AuthContext } from "../providers/auth";
 import Loading from "./Loading";
-import LikeButton from "./LikeButton";
 
-export default function LoginForms() {
+export default function RegisterForms() {
     const [form, setForm] = React.useState({
         email: '',
-        password: ''
+        password: '',
+        user_name: '',
+        image_url: ''
     })
-    const { setUser } = React.useContext(AuthContext)
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
 
     function handleForm(e) {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
-
-    function failedLogin(e) {
+    function failedRegister(e) {
         alert(e.response.data)
         setSubmited(false)
     }
-
-    function didLogin(a) {
-        setUser(a.data)
-        navigate("/timeline")
-    }
-
-    function doLogin(e) {
+    function doRegister(e) {
         setSubmited(true)
         e.preventDefault();
-        const postLogin = axios.post(`${process.env.REACT_APP_API_URL}/sign-in`, {
+        const registerPost = axios.post(`${process.env.REACT_APP_API_URL}sign-up`, {
             email: form.email,
-            password: form.password
+            password: form.password,
+            user_name: form.user_name,
+            image_url: form.image_url
         })
-        // se der tudo certo com a requisição, vai para a página home
-        postLogin.then((answer) => didLogin(answer))
-        postLogin.catch((error) => failedLogin(error))
+        registerPost.then(() => navigate("/"))
+        registerPost.catch((e) => failedRegister(e))
     }
     return (
         <RightSideDiv>
-            <LoginFormDiv>
-                <form onSubmit={doLogin}>
+            <RegisterFormDiv>
+                <form onSubmit={doRegister}>
                     <input
                         data-test="email" 
                         disabled={false}
                         name="email"
                         type="email"
                         required
-                        placeholder="e-mail"
+                        placeholder="E-mail"
                         onChange={handleForm}
                         value={form.email}
                     />
@@ -61,23 +54,42 @@ export default function LoginForms() {
                         name="password"
                         type="password"
                         required
-                        placeholder="password"
+                        placeholder="Senha"
                         onChange={handleForm}
                         value={form.password}
                     />
+                    <input
+                        data-test="username"
+                        disabled={false}
+                        name="user_name"
+                        type="text"
+                        required
+                        placeholder="username"
+                        onChange={handleForm}
+                        value={form.user_name}
+                    />
+                    <input
+                        data-test="picture-url"
+                        disabled={false}
+                        name="image_url"
+                        type="url"
+                        required
+                        placeholder="picture url"
+                        onChange={handleForm}
+                        value={form.image_url}
+                    />
                     <button
-                        data-test="login-btn"
+                        data-test="sign-up-btn"
                         disabled={false}
                         type="submit"
-                    >{submited ? <Loading /> : "Log in"}</button>
+                    >{submited ? <Loading /> : "Sign Up"}</button>
                 </form>
-                <StyledLink to="/sign-up">
-                    <p data-test="sign-up-link">
-                        First time? Create an account!
+                <StyledLink to="/">
+                    <p data-test="login-link">
+                        Switch back to log in
                     </p>
                 </StyledLink>
-                <LikeButton/>
-            </LoginFormDiv>
+            </RegisterFormDiv>
         </RightSideDiv>
     );
 }
@@ -90,7 +102,7 @@ const RightSideDiv = styled.div`
     height:100vh;
 `;
 
-const LoginFormDiv = styled.div`
+const RegisterFormDiv = styled.div`
     margin:auto;
     width:80%;
     form{
