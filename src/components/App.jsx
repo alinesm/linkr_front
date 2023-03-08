@@ -1,8 +1,8 @@
-import React from 'react';
-import GlobalStyle from '../styles/globalStyles';
+import React from "react";
+import GlobalStyle from "../styles/globalStyles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from '../pages/Login';
-import { AuthProvider } from '../providers/auth';
+import Login from "../pages/Login";
+import { AuthProvider } from "../providers/auth";
 
 export default function App() {
   return (
