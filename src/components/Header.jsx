@@ -2,18 +2,23 @@ import styled from "styled-components"
 import { SlArrowUp } from 'react-icons/sl'
 import { useContext, useState } from "react"
 import { AuthContext } from "../providers/auth"
+import { useNavigate } from "react-router-dom"
 
 export default function Header() {
+    const navigate = useNavigate()
     const [menu, setMenu] = useState(false)
     const { user } = useContext(AuthContext)
     console.log(user)
-
+    function logout(){
+        localStorage.removeItem('userSessionInfoLinkr')
+        navigate('/')
+    }
     return (
         <HeaderStyle>
             <h1>linkr</h1>
             <div>
                 <SlArrowUp onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" />
-                <LogOut open={menu} >Logout</LogOut>
+                <LogOut onClick={() => logout()} open={menu} >Logout</LogOut>
                 <img src={user.user.image_url} />
 
             </div>
