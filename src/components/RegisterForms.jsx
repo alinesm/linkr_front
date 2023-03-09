@@ -31,7 +31,7 @@ export default function RegisterForms() {
     function doRegister(e) {
         setSubmited(true)
         e.preventDefault();
-        const registerPost = axios.post(`${process.env.REACT_APP_API_URL}sign-up`, {
+        const registerPost = axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, {
             email: form.email,
             password: form.password,
             user_name: form.user_name,

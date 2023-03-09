@@ -39,11 +39,10 @@ export default function LoginForms() {
     function doLogin(e) {
         setSubmited(true)
         e.preventDefault();
-        const postLogin = axios.post(`${process.env.REACT_APP_API_URL}sign-in`, {
+        const postLogin = axios.post(`${process.env.REACT_APP_API_URL}/sign-in`, {
             email: form.email,
             password: form.password
         })
-        // se der tudo certo com a requisição, vai para a página home
         postLogin.then((answer) => didLogin(answer))
         postLogin.catch((error) => failedLogin(error))
     }
