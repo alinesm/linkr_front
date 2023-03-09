@@ -4,6 +4,7 @@ import { useContext, useState } from "react"
 import { AuthContext } from "../providers/auth"
 import SearchBar from "./SearchBar"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 export default function Header({setReload}) {
     const navigate = useNavigate()
@@ -12,7 +13,9 @@ export default function Header({setReload}) {
     console.log(user)
     function logout() {
         localStorage.removeItem('userSessionInfoLinkr')
-        navigate('/')
+        const removeSession = axios.delete(`${process.env.REACT_APP_API_URL}/logout/${user.token}`)
+        removeSession.then((answer) => navigate('/'))
+        removeSession.catch((error) => alert(error.response.data))
     }
     return (
         <HeaderStyle>
