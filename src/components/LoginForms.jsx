@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { AuthContext } from "../providers/auth";
 import Loading from "./Loading";
+import LikeButton from "./LikeButton";
 
 export default function LoginForms() {
     const [form, setForm] = React.useState({
@@ -14,6 +15,11 @@ export default function LoginForms() {
     const { setUser } = React.useContext(AuthContext)
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
+
+    if(localStorage.getItem('userSessionInfoLinkr')){
+        setUser(JSON.parse(localStorage.getItem('userSessionInfoLinkr')))
+        navigate("/timeline")
+    }
 
     function handleForm(e) {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -27,6 +33,8 @@ export default function LoginForms() {
     function didLogin(a) {
         setUser(a.data)
         navigate("/timeline")
+        const userSessionInfoLinkr = JSON.stringify(a.data)
+       // localStorage.setItem('userSessionInfoLinkr', userSessionInfoLinkr);
     }
 
     function doLogin(e) {
@@ -75,6 +83,7 @@ export default function LoginForms() {
                         First time? Create an account!
                     </p>
                 </StyledLink>
+              
             </LoginFormDiv>
         </RightSideDiv>
     );

@@ -50,5 +50,8 @@ const GlobalStyle = createGlobalStyle`
     *{
         box-sizing:border-box;
     }
+    body, html{
+        height: 100%;
+    }
 `
 export default GlobalStyle

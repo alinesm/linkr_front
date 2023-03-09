@@ -1,28 +1,49 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import styled from 'styled-components'
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
+import { AuthContext } from '../providers/auth';
 
 
 export default function LikeButton() {
+    const {user} = useContext(AuthContext)
+    
     const [postLikes, setPostLikes] = useState([])
     const [users, setUsers] = useState([])
     const [liked, setLiked] = useState(false)
+    const [reload, setReload] = useState([])
 
-    const Postid = 3 // pegar depois na página dos posts o post id
+    const Postid = 3 // pegar depois na página dos posts
 
-    const userToken = 'danniel4' // trocar depois para o que vier do login
+    const userName = user.user.user_name 
+
+    const userId = user.user.id 
 
     useEffect(() => {
         getPostLikes()
+    }, [reload])
+
+    console.log(user)
 
 
-    }, [])
+    const config = {
+        headers: {
+            Authorization: `Bearer ${user.token}`
+        }
+    }
+
+    function likePost(liked) {
+       if(liked === 'liked') {
+        setLiked(false)
+       }
+        axios.post(`${process.env.REACT_APP_API_URL}like/${Postid}`, {userId}, config)
+        .then(() => setReload([]))
+    }
 
     function getPostLikes() {
-        axios.get(`${process.env.REACT_APP_API_URL}/posts/${Postid}`)
+        axios.get(`${process.env.REACT_APP_API_URL}posts/${Postid}`)
             .then((res) => {
                 const posts = res.data
                 setPostLikes(posts)
@@ -35,7 +56,7 @@ export default function LikeButton() {
 
         const usersLikes = posts.map((item) => item.user_name)
         const checkIfLiked = usersLikes.map((user, i) => {
-            if (user === userToken) {
+            if (user === userName) {
                 setLiked(true)
                 return "Você"
             } else {
@@ -71,7 +92,7 @@ export default function LikeButton() {
             {users.length > 0 &&
                 <Tooltip content={users} placement='bottom'>
                     <Likes>
-                        {liked ? <AiFillHeart/>   : <AiOutlineHeart />
+                        {liked ? <AiFillHeart  onClick={ () => likePost('liked')}  cursor={'pointer'} />   : <AiOutlineHeart onClick={ () => likePost('notLiked')} cursor={'pointer'}  />
                         }
                           {postLikes.length} likes
                     </Likes>
@@ -85,8 +106,14 @@ export default function LikeButton() {
 }
 
 const Likes = styled.div`
-    color: red,
-
+   width: inherit;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+   margin-top: 10px;
+   gap: 5px;
+   width: 50px;
 `
 
 const Tooltip = styled(Tippy)`
@@ -97,8 +124,9 @@ const Tooltip = styled(Tippy)`
     font-size: 11px;
     color:#505050;
     border-radius: 3px;
+    
     .tippy-arrow {
-        color: rgba(255, 255, 255, 0.9)
+        color: rgba(255, 255, 255, 0.9);
     }
 
 `

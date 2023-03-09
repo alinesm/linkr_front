@@ -7,7 +7,7 @@ export default function SearchBar() {
     const [usersName, setUsersName] = useState([])
     const [filteredUsers, setFilteresUsers] = useState([])
     useEffect((() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/users`)
+        axios.get(`${process.env.REACT_APP_API_URL}users`)
             .then(res => {
                 console.log(res.data)
                 setUsersName(res.data)
@@ -42,7 +42,7 @@ export default function SearchBar() {
                     {
                         filteredUsers.map((user) =>
                             <div>
-                                <img src={user.image_url} />
+                                <img src={user.image_url} alt='user'/>
                                 <p>{user.user_name}</p>
                             </div>
                         )
