@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { SlArrowUp } from 'react-icons/sl'
 import { useContext, useState } from "react"
 import { AuthContext } from "../providers/auth"
-
+import SearchBar from "./SearchBar"
 export default function Header() {
     const [menu, setMenu] = useState(false)
     const { user } = useContext(AuthContext)
@@ -11,6 +11,7 @@ export default function Header() {
     return (
         <HeaderStyle>
             <h1>linkr</h1>
+                <SearchBar/>
             <div>
                 <SlArrowUp onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" />
                 <LogOut open={menu} >Logout</LogOut>
@@ -31,10 +32,11 @@ const HeaderStyle = styled.div`
     left: 0;
     height:72px;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
    
         h1 {
             font-family: 'Passion One';
@@ -46,10 +48,10 @@ const HeaderStyle = styled.div`
 
         }
         div {
-            display: flex;
-            justify-content: center;
+            display: flex;          
             align-items: center;
             gap: 10px;
+            
         }
         img {
             width: 53px;
@@ -73,6 +75,7 @@ const LogOut = styled.div`
     cursor: pointer;
     color: #FFFFFF;
     right: 0;
+    padding-left: 40px;
     display: ${props => !props.open ? 'none!important' : 'block'}
 `
 

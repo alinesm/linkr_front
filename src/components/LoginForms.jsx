@@ -34,7 +34,7 @@ export default function LoginForms() {
         setUser(a.data)
         navigate("/timeline")
         const userSessionInfoLinkr = JSON.stringify(a.data)
-       // localStorage.setItem('userSessionInfoLinkr', userSessionInfoLinkr);
+        localStorage.setItem('userSessionInfoLinkr', userSessionInfoLinkr);
     }
 
     function doLogin(e) {

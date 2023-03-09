@@ -54,6 +54,7 @@ export default function SearchBar() {
     )
 }
 
+
 const Search = styled.div`
     display: flex;
     position: relative;
@@ -85,19 +86,26 @@ const UsersBox = styled.div`
     width: 563px;
     margin-top: -10px;
     padding-top: 15px;
-    border-radius: 5px;  
-    background-color: white;
+    border-radius: 5px; 
     background-color: #E7E7E7;
     box-shadow: rgba(0,0,0,0.34) 0 5px 15px;
+    position: absolute;
+    height: 200px;
+    bottom: -185px;
+    flex-direction: column;
+    overflow-x: scroll;
+    z-index: 1;
+  
+   
    
         div {
             padding-top: 10px;
             padding-bottom: 10px;
             width: 100%;
             display: flex;
-            gap: 15px;
-            height: 40px;
-            align-items: center;
+            gap: 15px;           
+            height: 70px;     
+            padding-left: 30px;
             cursor: pointer;
                 &:hover {
                     background-color: white;

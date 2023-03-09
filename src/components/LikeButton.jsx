@@ -7,25 +7,27 @@ import 'tippy.js/dist/tippy.css'; // optional
 import { AuthContext } from '../providers/auth';
 
 
-export default function LikeButton() {
-    const {user} = useContext(AuthContext)
-    
+
+export default function LikeButton({ postId }) {
+
+
+    const { user } = useContext(AuthContext)
+
     const [postLikes, setPostLikes] = useState([])
     const [users, setUsers] = useState([])
     const [liked, setLiked] = useState(false)
     const [reload, setReload] = useState([])
 
-    const Postid = 3 // pegar depois na página dos posts
 
-    const userName = user.user.user_name 
 
-    const userId = user.user.id 
+    const userName = user.user.user_name
+
+    const userId = user.user.id
 
     useEffect(() => {
         getPostLikes()
     }, [reload])
 
-    console.log(user)
 
 
     const config = {
@@ -33,22 +35,22 @@ export default function LikeButton() {
             Authorization: `Bearer ${user.token}`
         }
     }
-
+    console.log(postId)
     function likePost(liked) {
-       if(liked === 'liked') {
-        setLiked(false)
-       }
-        axios.post(`${process.env.REACT_APP_API_URL}like/${Postid}`, {userId}, config)
-        .then(() => setReload([]))
+        if (liked === 'liked') {
+            setLiked(false)
+        }
+        axios.post(`${process.env.REACT_APP_API_URL}like/${postId}`, { userId }, config)
+            .then(() => setReload([]))
     }
 
     function getPostLikes() {
-        axios.get(`${process.env.REACT_APP_API_URL}posts/${Postid}`)
+        axios.get(`${process.env.REACT_APP_API_URL}posts/${postId}`)
             .then((res) => {
                 const posts = res.data
                 setPostLikes(posts)
                 getUsersThatLikedPost(posts)
-                console.log(res.data)
+
             })
     }
 
@@ -70,31 +72,48 @@ export default function LikeButton() {
             checkIfLiked[index] = temp
         }
         let text = ''
-        if (checkIfLiked.length >= 2) {
-            const firstTwoUsers = checkIfLiked.slice(0, 2).join(', ')
-            const getRemainingUsers = checkIfLiked.length - 2
-            if (checkIfLiked.length === 2) {
-                text = `${firstTwoUsers} deram like`
-            } else if (checkIfLiked.length === 3) {
-                text = `${firstTwoUsers} e outra ${getRemainingUsers} pessoa deu like`
-            } else {
-                text = `${firstTwoUsers} e outras ${getRemainingUsers} pessoas deram like`
+        if (checkIfLiked.length > 0) {
+            if(checkIfLiked.length === 1) {
+                text = `${checkIfLiked} deu like`
+            }
+           
+            if (checkIfLiked.length >=2) {
+                const firstTwoUsers = checkIfLiked.slice(0, 2).join(', ')
+                const getRemainingUsers = checkIfLiked.length - 2
+               
+                if(checkIfLiked.length === 2) {
+                    text = `${firstTwoUsers}`
+                }
+                if (checkIfLiked.length === 3) {
+                    text = `${firstTwoUsers} e outra ${getRemainingUsers} pessoa deu like`
+                } else {
+                    if( getRemainingUsers == 0) {
+                        text = `${firstTwoUsers}  deram like`
+                    } else {
+
+                        text = `${firstTwoUsers} e outras ${getRemainingUsers} pessoas deram like`
+                    }
+                }
             }
 
+        } else {
+            text = 'Ninguém deu like'
         }
-        console.log(text)
+
         setUsers(text)
     }
 
+    
+
 
     return (
-        <>
-            {users.length > 0 &&
+        <>  
+            {
                 <Tooltip content={users} placement='bottom'>
                     <Likes>
-                        {liked ? <AiFillHeart  onClick={ () => likePost('liked')}  cursor={'pointer'} />   : <AiOutlineHeart onClick={ () => likePost('notLiked')} cursor={'pointer'}  />
+                        {liked ? <AiFillHeart size={'25px'} onClick={() => likePost('liked')} cursor={'pointer'} /> : <AiOutlineHeart size={'25px'}  onClick={() => likePost('notLiked')} cursor={'pointer'} />
                         }
-                          {postLikes.length} likes
+                        {postLikes.length} likes
                     </Likes>
 
                 </Tooltip>

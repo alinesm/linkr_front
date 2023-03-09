@@ -5,6 +5,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import { AuthProvider } from '../providers/auth';
 import Timeline from '../pages/Timeline';
+import UserPage from '../pages/UserPage'
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
             <Route path="/" element={<Login />} />
             <Route path="/timeline" element ={<Timeline />} />
             <Route path="/sign-up" element={<Register />} />
+            <Route path="/users/:id" element={<UserPage />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

@@ -1,18 +1,18 @@
 import styled from "styled-components"
 import TrendCard from "../components/TrendCard"
-import PostList from "../components/PostList"
+import UserPostList from "../components/UserPostList"
 import Header from "../components/Header"
 
-export default function Timeline(){
+export default function Timeline() {
     return (
         <>
-            <Header/>
-        <TimelineContainer>
-            <TimelineContent>
-                <PostList />
-                <TrendCard />
-            </TimelineContent> 
-        </TimelineContainer>
+            <Header />
+            <TimelineContainer>
+                <TimelineContent>
+                    <UserPostList />
+                    <TrendCard />
+                </TimelineContent>
+            </TimelineContainer>
         </>
     )
 }
@@ -22,7 +22,7 @@ const TimelineContainer = styled.div`
     justify-content: center;
     width:100%;
     background-color: #333333;
-    overflow: scroll;
+    overflow-y: scroll;
     margin-top: 55px;
 `
 const TimelineContent = styled.div`
