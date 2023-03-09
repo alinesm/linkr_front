@@ -106,10 +106,17 @@ const RightSideDiv = styled.div`
     background-color: #333333;
     width:40vw;
     height:100vh;
+    @media (max-width: 600px){
+        height:74vh;
+        width:100vw;
+    }
 `;
 
 const RegisterFormDiv = styled.div`
     margin:auto;
+    @media (max-width: 600px){
+        margin:20px auto auto auto;
+    }
     width:80%;
     form{
         display:flex;
@@ -142,6 +149,14 @@ const RegisterFormDiv = styled.div`
             font-family: 'Raleway',sans-serif;
             font-size: 20px;
             font-weight: 700;
+        }
+        @media (max-width: 600px){
+            button{
+                height:65px;
+            }
+            input{
+                height:65px;
+            }
         }
     }
 `;
