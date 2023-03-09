@@ -86,7 +86,7 @@ export default function RegisterForms() {
                     />
                     <button
                         data-test="sign-up-btn"
-                        disabled={false}
+                        disabled={submited}
                         type="submit"
                     >{submited ? <Loading /> : "Sign Up"}</button>
                 </form>

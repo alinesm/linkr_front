@@ -72,7 +72,7 @@ export default function LoginForms() {
                     />
                     <button
                         data-test="login-btn"
-                        disabled={false}
+                        disabled={submited}
                         type="submit"
                     >{submited ? <Loading /> : "Log in"}</button>
                 </form>
