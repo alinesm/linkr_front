@@ -42,7 +42,7 @@ export default function SearchBar() {
                     {
                         filteredUsers.map((user) =>
                             <div>
-                                <img src={user.image_url} />
+                                <img src={user.image_url} alt='user'/>
                                 <p>{user.user_name}</p>
                             </div>
                         )
