@@ -9,7 +9,7 @@ export default function Header() {
     const [menu, setMenu] = useState(false)
     const { user } = useContext(AuthContext)
     console.log(user)
-    function logout(){
+    function logout() {
         localStorage.removeItem('userSessionInfoLinkr')
         navigate('/')
     }
@@ -18,11 +18,11 @@ export default function Header() {
             <h1>linkr</h1>
             <div>
                 <SlArrowUp onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" />
-                <LogOut onClick={() => logout()} open={menu} >Logout</LogOut>
-                <img src={user.user.image_url} />
-
+                <LogOut onClick={() => logout()} open={menu} data-test="menu">
+                    <p data-test="logout">Logout</p>
+                </LogOut>
+                <img src={user.user.image_url} onClick={() => setMenu(!menu)} data-test="avatar" />
             </div>
-
         </HeaderStyle>
     )
 }
@@ -58,6 +58,7 @@ const HeaderStyle = styled.div`
             gap: 10px;
         }
         img {
+            cursor:pointer;
             width: 53px;
             height: 53px;
             border-radius: 26.5px
