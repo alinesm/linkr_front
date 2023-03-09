@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 import UserPost from "./UserPosts";
 
-export default function UserPostList() {
+export default function UserPostList({reload}) {
     return (
         <PostListContainer>
-            <UserPost />
+            <UserPost reload={reload} />
        </PostListContainer>
     );
 }

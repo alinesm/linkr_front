@@ -2,10 +2,12 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { BsSearch } from 'react-icons/bs'
+import { Link } from "react-router-dom"
 
-export default function SearchBar() {
+export default function SearchBar({setReload}) {
     const [usersName, setUsersName] = useState([])
     const [filteredUsers, setFilteresUsers] = useState([])
+    const [input, setInput] = useState("")
     useEffect((() => {
         axios.get(`${process.env.REACT_APP_API_URL}users`)
             .then(res => {
@@ -18,6 +20,7 @@ export default function SearchBar() {
     }), [])
 
     function handleFilter(e) {
+        setInput(e.target.value)
         const letters = (e.target.value).toLowerCase()
         const filteredUsers = usersName.filter((user) => {
             return (user.user_name).toLowerCase().includes(letters)
@@ -27,13 +30,14 @@ export default function SearchBar() {
         } else {
 
             setFilteresUsers(filteredUsers)
+           
         }
     }
 
     return (
         <div>
             <Search>
-                <input placeholder="Search for people" onChange={handleFilter} />
+                <input placeholder="Search for people" onChange={handleFilter} value={input}/>
                 <p><BsSearch /></p>
             </Search>
 
@@ -41,10 +45,16 @@ export default function SearchBar() {
                 <UsersBox>
                     {
                         filteredUsers.map((user) =>
-                            <div>
-                                <img src={user.image_url} alt='user'/>
-                                <p>{user.user_name}</p>
-                            </div>
+                            <StyledLink  to={`/users/${user.id}`}>
+                                <div onClick={() => {
+                                    setReload([]) 
+                                    setFilteresUsers([])
+                                    setInput("")
+                                    }} >
+                                    <img src={user.image_url} alt='user' />
+                                    <p>{user.user_name}</p>
+                                </div>
+                            </StyledLink>
                         )
                     }
 
@@ -53,6 +63,12 @@ export default function SearchBar() {
         </div>
     )
 }
+
+const StyledLink = styled(Link)`
+    justify-content: left!important;
+    width: 100%;
+
+`
 
 
 const Search = styled.div`

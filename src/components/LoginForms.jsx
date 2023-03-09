@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { AuthContext } from "../providers/auth";
 import Loading from "./Loading";
-import LikeButton from "./LikeButton";
 
 export default function LoginForms() {
     const [form, setForm] = React.useState({
@@ -16,7 +15,7 @@ export default function LoginForms() {
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
 
-    if(localStorage.getItem('userSessionInfoLinkr')){
+    if (localStorage.getItem('userSessionInfoLinkr')) {
         setUser(JSON.parse(localStorage.getItem('userSessionInfoLinkr')))
         navigate("/timeline")
     }
@@ -40,11 +39,10 @@ export default function LoginForms() {
     function doLogin(e) {
         setSubmited(true)
         e.preventDefault();
-        const postLogin = axios.post(`${process.env.REACT_APP_API_URL}sign-in`, {
+        const postLogin = axios.post(`${process.env.REACT_APP_API_URL}/sign-in`, {
             email: form.email,
             password: form.password
         })
-        // se der tudo certo com a requisição, vai para a página home
         postLogin.then((answer) => didLogin(answer))
         postLogin.catch((error) => failedLogin(error))
     }
@@ -53,7 +51,7 @@ export default function LoginForms() {
             <LoginFormDiv>
                 <form onSubmit={doLogin}>
                     <input
-                        data-test="email" 
+                        data-test="email"
                         disabled={false}
                         name="email"
                         type="email"
@@ -74,7 +72,7 @@ export default function LoginForms() {
                     />
                     <button
                         data-test="login-btn"
-                        disabled={false}
+                        disabled={submited}
                         type="submit"
                     >{submited ? <Loading /> : "Log in"}</button>
                 </form>
@@ -83,7 +81,7 @@ export default function LoginForms() {
                         First time? Create an account!
                     </p>
                 </StyledLink>
-              
+
             </LoginFormDiv>
         </RightSideDiv>
     );
@@ -95,10 +93,17 @@ const RightSideDiv = styled.div`
     background-color: #333333;
     width:40vw;
     height:100vh;
+    @media (max-width: 600px){
+        width:100vw;
+        height:74vh;
+    }
 `;
 
 const LoginFormDiv = styled.div`
     margin:auto;
+    @media (max-width: 600px){
+        margin:20px auto auto auto;
+    }
     width:80%;
     form{
         display:flex;
@@ -131,6 +136,14 @@ const LoginFormDiv = styled.div`
             font-family: 'Raleway',sans-serif;
             font-size: 20px;
             font-weight: 700;
+        }
+        @media (max-width: 600px){
+            input{
+                height:55px;
+            }
+            button{
+                height:55px;
+            }
         }
     }
 `;

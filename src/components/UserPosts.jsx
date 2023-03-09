@@ -1,13 +1,13 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import styled from "styled-components"
 import { AuthContext } from "../providers/auth"
 import LikeButton from "./LikeButton"
 import { Oval, RotatingLines } from "react-loader-spinner"
 
 
-export default function UserPost({ likesNumber }) {
+export default function UserPost({ reload }) {
 
 
     const { id } = useParams()
@@ -17,6 +17,7 @@ export default function UserPost({ likesNumber }) {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        setLoading(true)
         axios.get(`${process.env.REACT_APP_API_URL}users/${id}`)
             .then(res => {
                 setUserPosts(res.data.posts)
@@ -24,9 +25,9 @@ export default function UserPost({ likesNumber }) {
                 setLoading(false)
                 console.log(res.data)
 
-            })
 
-    }, [])
+            })
+    }, [reload])
 
 
     return (
@@ -40,7 +41,7 @@ export default function UserPost({ likesNumber }) {
                         wrapperStyle={{}}
                         wrapperClass=""
                         visible={true}
-                        
+
                         ariaLabel='oval-loading'
                         secondaryColor="#rgb(21, 21, 21)"
                         strokeWidth={2}
@@ -49,58 +50,86 @@ export default function UserPost({ likesNumber }) {
                     />
                 </StyledLoading>
                 :
-                <>
+                userPosts ?
+                    <>
 
-                    <PageTitle>
+                        <PageTitle>
 
-                        <img src={userData.image_url} alt='userPic' />
-                        {`${userData.user_name}'s post`}
-                    </PageTitle>
-                    {
-                        userPosts.map((post =>
-                            <ContainerPost>
-                                <>
-                                    <ProfilePicDiv>
-                                        <img src={userData.image_url} alt='profilepic' />
-                                        <LikeButton postId={post.id} />
-                                    </ProfilePicDiv>
+                            <img src={userData.image_url} alt='userPic' />
+                            {`${userData.user_name}'s post`}
+                        </PageTitle>
+                        {
+                            userPosts.map((post =>
+                                <ContainerPost>
+                                    <>
+                                        <ProfilePicDiv>
+                                            <img src={userData.image_url} alt='profilepic' />
+                                            <LikeButton postId={post.id} />
+                                        </ProfilePicDiv>
 
-                                    <MainDiv  >
-                                        <HeaderPost>
-                                            <div>
-                                                <h2>{userData.user_name}</h2>
-                                                <h3>{post.description}</h3>
-                                            </div>
-                                            <ChangeButton>
-                                                <ion-icon name="pencil"></ion-icon>
-                                                <ion-icon name="trash"></ion-icon>
-                                            </ChangeButton>
-                                        </HeaderPost>
-                                        <PostContent onClick={() => window.open(`${post.link}`, "_blank")}> 
-                                            <div>
-                                                <h1>{post.title}</h1>
-                                                <h2>{post.postDescription}</h2>
-                                                <a href={post.link} target="_blank">{post.link}</a>
-                                            </div>
-                                            <img src={post.image} />
-                                        </PostContent>
-                                    </MainDiv>
-                                </>
+                                        <MainDiv  >
+                                            <HeaderPost>
+                                                <div>
+                                                    <h2>{userData.user_name}</h2>
+                                                    <h3>{post.description}</h3>
+                                                </div>
+                                                <ChangeButton>
+                                                    <ion-icon name="pencil"></ion-icon>
+                                                    <ion-icon name="trash"></ion-icon>
+                                                </ChangeButton>
+                                            </HeaderPost>
+                                            <PostContent onClick={() => window.open(`${post.link}`, "_blank")}>
+                                                <div>
+                                                    <h1>{post.title}</h1>
+                                                    <h2>{post.postDescription}</h2>
+                                                    <a href={post.link} target="_blank">{post.link}</a>
+                                                </div>
+                                                <img src={post.image} />
+                                            </PostContent>
+                                        </MainDiv>
+                                    </>
 
-                            </ContainerPost>
-                        ))
-                    }
-
-
+                                </ContainerPost>
+                            ))
+                        }
 
 
-                </>
+
+
+                    </>
+                    :
+                    <>
+                        <Text>Este usuário não possuí nenhum post</Text>
+                        <StyledLink to={"/timeline"}>
+                            Volta para home
+                        </StyledLink>
+                    </>
+
+
 
             }
 
         </>
     )
 }
+
+const StyledLink = styled(Link)`
+    margin-top: 40px;
+    &:visited {
+        color: white;
+    }
+
+`
+
+const Text = styled.h1`
+   color: rgb(255, 255, 255);
+    font-family: Oswald;
+    font-size: 27px;
+    font-weight: 700;
+    margin-top: 300px;
+    margin-right: 200px;
+    margin-bottom: 20px;
+`
 
 const StyledLoading = styled.div`
     width: 50px;

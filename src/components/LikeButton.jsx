@@ -35,7 +35,7 @@ export default function LikeButton({ postId }) {
             Authorization: `Bearer ${user.token}`
         }
     }
-    console.log(postId)
+   
     function likePost(liked) {
         if (liked === 'liked') {
             setLiked(false)

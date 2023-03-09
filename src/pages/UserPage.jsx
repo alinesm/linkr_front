@@ -2,14 +2,16 @@ import styled from "styled-components"
 import TrendCard from "../components/TrendCard"
 import UserPostList from "../components/UserPostList"
 import Header from "../components/Header"
+import { useState } from "react"
 
 export default function Timeline() {
+    const [reload, setReload] = useState([])
     return (
         <>
-            <Header />
+            <Header setReload={setReload} />
             <TimelineContainer>
                 <TimelineContent>
-                    <UserPostList />
+                    <UserPostList reload={reload} />
                     <TrendCard />
                 </TimelineContent>
             </TimelineContainer>

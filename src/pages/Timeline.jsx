@@ -8,6 +8,7 @@ export default function Timeline(){
         <>
             <Header/>
         <TimelineContainer>
+            <Header/>
             <TimelineContent>
                 <PostList />
                 <TrendCard />
@@ -31,4 +32,5 @@ const TimelineContent = styled.div`
     width:100%;
     height:100vh;
     color:#FFF;
+    margin-top: 60px;
 `
