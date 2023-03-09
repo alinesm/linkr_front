@@ -21,6 +21,10 @@ const Intro = styled.div`
     background-color:#151515;
     width:60vw;
     height:100vh;
+    @media (max-width: 600px){
+        width:100vw;
+        height:26vh;
+    }
 `;
 const ContentDiv = styled.div`
     margin:auto;
@@ -37,5 +41,16 @@ const ContentDiv = styled.div`
         font-weight: 700;
         text-align: left;
         color:#FFFFFF;
+    }
+    @media (max-width: 600px){
+        h1{
+            font-size: 76px;
+            text-align: center;
+        }
+        p{
+            font-size: 23px;
+            text-align: center;
+            line-height: 34px;
+        }
     }
 `;

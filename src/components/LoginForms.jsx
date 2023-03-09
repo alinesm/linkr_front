@@ -15,7 +15,7 @@ export default function LoginForms() {
     const navigate = useNavigate()
     const [submited, setSubmited] = React.useState(false)
 
-    if(localStorage.getItem('userSessionInfoLinkr')){
+    if (localStorage.getItem('userSessionInfoLinkr')) {
         setUser(JSON.parse(localStorage.getItem('userSessionInfoLinkr')))
         navigate("/timeline")
     }
@@ -51,7 +51,7 @@ export default function LoginForms() {
             <LoginFormDiv>
                 <form onSubmit={doLogin}>
                     <input
-                        data-test="email" 
+                        data-test="email"
                         disabled={false}
                         name="email"
                         type="email"
@@ -81,7 +81,7 @@ export default function LoginForms() {
                         First time? Create an account!
                     </p>
                 </StyledLink>
-              
+
             </LoginFormDiv>
         </RightSideDiv>
     );
@@ -93,10 +93,17 @@ const RightSideDiv = styled.div`
     background-color: #333333;
     width:40vw;
     height:100vh;
+    @media (max-width: 600px){
+        width:100vw;
+        height:74vh;
+    }
 `;
 
 const LoginFormDiv = styled.div`
     margin:auto;
+    @media (max-width: 600px){
+        margin:20px auto auto auto;
+    }
     width:80%;
     form{
         display:flex;
@@ -129,6 +136,14 @@ const LoginFormDiv = styled.div`
             font-family: 'Raleway',sans-serif;
             font-size: 20px;
             font-weight: 700;
+        }
+        @media (max-width: 600px){
+            input{
+                height:55px;
+            }
+            button{
+                height:55px;
+            }
         }
     }
 `;
