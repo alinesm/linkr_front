@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { SlArrowUp } from 'react-icons/sl'
+import { SlArrowUp,SlArrowDown } from 'react-icons/sl'
 import { useContext, useState } from "react"
 import { AuthContext } from "../providers/auth"
 import SearchBar from "./SearchBar"
@@ -19,7 +19,8 @@ export default function Header({setReload}) {
             <h1>linkr</h1>
                 <SearchBar setReload={setReload}/>
             <div>
-                <SlArrowUp onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" />
+                {menu ? <SlArrowDown onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" /> : <SlArrowUp onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" />}
+                
                 <LogOut onClick={() => logout()} open={menu} data-test="menu">
                     <p data-test="logout">Logout</p>
                 </LogOut>
