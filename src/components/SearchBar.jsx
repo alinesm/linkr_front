@@ -3,8 +3,9 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { BsSearch } from 'react-icons/bs'
 import { Link } from "react-router-dom"
+import { DebounceInput } from 'react-debounce-input';
 
-export default function SearchBar({setReload}) {
+export default function SearchBar({ setReload }) {
     const [usersName, setUsersName] = useState([])
     const [filteredUsers, setFilteresUsers] = useState([])
     const [input, setInput] = useState("")
@@ -30,14 +31,19 @@ export default function SearchBar({setReload}) {
         } else {
 
             setFilteresUsers(filteredUsers)
-           
+
         }
     }
 
     return (
         <div>
             <Search>
-                <input placeholder="Search for people" onChange={handleFilter} value={input}/>
+                <DebounceInput
+                    minLength={3}
+                    debounceTimeout={300}
+                    placeholder="Search for people"
+                    onChange={handleFilter}
+                    value={input} />
                 <p><BsSearch /></p>
             </Search>
 
@@ -45,12 +51,12 @@ export default function SearchBar({setReload}) {
                 <UsersBox>
                     {
                         filteredUsers.map((user) =>
-                            <StyledLink  to={`/users/${user.id}`}>
+                            <StyledLink to={`/users/${user.id}`}>
                                 <div onClick={() => {
-                                    setReload([]) 
+                                    setReload([])
                                     setFilteresUsers([])
                                     setInput("")
-                                    }} >
+                                }} >
                                     <img src={user.image_url} alt='user' />
                                     <p>{user.user_name}</p>
                                 </div>
