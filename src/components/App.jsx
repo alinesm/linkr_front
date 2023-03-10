@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import { AuthProvider } from "../providers/auth";
 import Timeline from "../pages/Timeline";
+import PostsByHashtag from "./PostsByHashtag";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
             <Route path="/" element={<Login />} />
             <Route path="/timeline" element={<Timeline />} />
             <Route path="/sign-up" element={<Register />} />
+            <Route path="/hashtag/:hashtag" element={<PostsByHashtag />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
