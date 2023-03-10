@@ -16,13 +16,13 @@ export default function TrendCard() {
   }, []);
 
   return (
-    <TrendCardContainer>
+    <TrendCardContainer data-test="trending">
       <TitleDiv>
         <h2>trending</h2>
       </TitleDiv>
       <TrendListDiv>
         {hashtags.map((h) => (
-          <p>
+          <p data-test="hashtag">
             #<ReactTagify>{h}</ReactTagify>
           </p>
         ))}
