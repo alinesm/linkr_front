@@ -10,7 +10,7 @@ export default function SearchBar({ setReload }) {
     const [filteredUsers, setFilteresUsers] = useState([])
     const [input, setInput] = useState("")
     useEffect((() => {
-        axios.get(`${process.env.REACT_APP_API_URL}users`)
+        axios.get(`${process.env.REACT_APP_API_URL}/users`)
             .then(res => {
                 console.log(res.data)
                 setUsersName(res.data)
@@ -39,6 +39,7 @@ export default function SearchBar({ setReload }) {
         <div>
             <Search>
                 <DebounceInput
+                data-test="search"
                     minLength={3}
                     debounceTimeout={300}
                     placeholder="Search for people"
@@ -52,7 +53,7 @@ export default function SearchBar({ setReload }) {
                     {
                         filteredUsers.map((user) =>
                             <StyledLink to={`/users/${user.id}`}>
-                                <div onClick={() => {
+                                <div data-test="user-search" onClick={() => {
                                     setReload([])
                                     setFilteresUsers([])
                                     setInput("")

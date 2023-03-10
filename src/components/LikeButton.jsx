@@ -8,7 +8,7 @@ import { AuthContext } from '../providers/auth';
 
 
 
-export default function LikeButton({ postId }) {
+export default function LikeButton({ postId, setPostHashtags }) {
 
 
     const { user } = useContext(AuthContext)
@@ -26,8 +26,7 @@ export default function LikeButton({ postId }) {
 
     useEffect(() => {
         getPostLikes()
-    }, [reload])
-
+    }, [reload]) 
 
 
     const config = {
@@ -40,14 +39,18 @@ export default function LikeButton({ postId }) {
         if (liked === 'liked') {
             setLiked(false)
         }
-        axios.post(`${process.env.REACT_APP_API_URL}like/${postId}`, { userId }, config)
+        axios.post(`${process.env.REACT_APP_API_URL}/like/${postId}`, { userId }, config)
             .then(() => setReload([]))
     }
 
     function getPostLikes() {
-        axios.get(`${process.env.REACT_APP_API_URL}posts/${postId}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/posts/${postId}`)
             .then((res) => {
                 const posts = res.data
+
+               
+
+               
                 setPostLikes(posts)
                 getUsersThatLikedPost(posts)
 
@@ -109,14 +112,15 @@ export default function LikeButton({ postId }) {
     return (
         <>  
             {
-                <Tooltip content={users} placement='bottom'>
+                <Tooltip content={users} placement='bottom' data-test="tooltip">
                     <Likes>
-                        {liked ? <AiFillHeart size={'25px'} onClick={() => likePost('liked')} cursor={'pointer'} /> : <AiOutlineHeart size={'25px'}  onClick={() => likePost('notLiked')} cursor={'pointer'} />
+                        {liked ? <AiFillHeart data-test="like-btn" size={'25px'} onClick={() => likePost('liked')} cursor={'pointer'} /> : <AiOutlineHeart data-test="like-btn" size={'25px'}  onClick={() => likePost('notLiked')} cursor={'pointer'} />
                         }
-                        {postLikes.length} likes
+                        <p data-test="counter" >{postLikes.length } likes</p>
+                        
                     </Likes>
 
-                </Tooltip>
+                </Tooltip >
             }
         </>
 
@@ -133,6 +137,14 @@ const Likes = styled.div`
    margin-top: 10px;
    gap: 5px;
    width: 50px;
+    p {
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 11px;
+        cursor: pointer;
+
+        }
 `
 
 const Tooltip = styled(Tippy)`

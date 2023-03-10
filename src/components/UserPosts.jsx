@@ -152,6 +152,8 @@ export default function UserPost({ reload }) {
 
 const StyledLink = styled(Link)`
   margin-top: 40px;
+  font-weight: bold;
+  text-decoration: none;
   &:visited {
     color: white;
   }

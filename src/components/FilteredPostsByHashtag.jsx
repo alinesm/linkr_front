@@ -55,7 +55,7 @@ export default function FilteredPostsByHashtag() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}hashtag/${hashtag}`)
+      .get(`${process.env.REACT_APP_API_URL}/hashtag/${hashtag}`)
       .then((res) => {
         setFilteredPosts(res.data);
         console.log("data", res.data);
