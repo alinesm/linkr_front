@@ -72,7 +72,7 @@ export default function FilteredPostsByHashtag() {
   return (
     <>
       {withHashtags.map((post) => (
-        <ContainerPost>
+        <ContainerPost data-test="post">
           <>
             <ProfilePicDiv>
               <img src={post.image_url} alt="profilepic" />
