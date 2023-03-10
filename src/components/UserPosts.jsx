@@ -59,7 +59,7 @@ export default function UserPost({ reload }) {
   // }
 
   useEffect(() => {
-    //setLoading(true);
+    setLoading(true);
     axios.get(`${process.env.REACT_APP_API_URL}/users/${id}`)
       .then((res) => {
         console.log('oir')
