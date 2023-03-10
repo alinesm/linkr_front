@@ -8,7 +8,7 @@ import { AuthContext } from '../providers/auth';
 
 
 
-export default function LikeButton({ postId }) {
+export default function LikeButton({ postId, setPostHashtags }) {
 
 
     const { user } = useContext(AuthContext)
@@ -26,8 +26,7 @@ export default function LikeButton({ postId }) {
 
     useEffect(() => {
         getPostLikes()
-    }, [reload])
-
+    }, [reload]) 
 
 
     const config = {
@@ -48,6 +47,10 @@ export default function LikeButton({ postId }) {
         axios.get(`${process.env.REACT_APP_API_URL}posts/${postId}`)
             .then((res) => {
                 const posts = res.data
+
+               
+
+               
                 setPostLikes(posts)
                 getUsersThatLikedPost(posts)
 

@@ -15,19 +15,22 @@ export default function UserPost({ reload }) {
     const [userPosts, setUserPosts] = useState([])
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(true)
+    const [postHashtags, setPostHashtags] = useState([])
 
     useEffect(() => {
         setLoading(true)
-        axios.get(`${process.env.REACT_APP_API_URL}users/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/users/${id}`)
             .then(res => {
                 setUserPosts(res.data.posts)
                 setUserData(res.data)
                 setLoading(false)
                 console.log(res.data)
-
-
             })
     }, [reload])
+
+
+
+
 
 
     return (
@@ -64,14 +67,14 @@ export default function UserPost({ reload }) {
                                     <>
                                         <ProfilePicDiv>
                                             <img src={userData.image_url} alt='profilepic' />
-                                            <LikeButton postId={post.id} />
+                                            <LikeButton setPostHashtags={setPostHashtags} postId={post.id} />
                                         </ProfilePicDiv>
 
                                         <MainDiv  >
                                             <HeaderPost>
                                                 <div>
                                                     <h2>{userData.user_name}</h2>
-                                                    <h3>{post.description}</h3>
+                                                    <h3 >{post.description} {post.hashtags.map((h)=> <StyledLink to={`/hashtag/${h.text}`}>{` #${h.text}  `}</StyledLink>) }</h3>
                                                 </div>
                                                 <ChangeButton>
                                                     <ion-icon name="pencil"></ion-icon>
@@ -115,6 +118,8 @@ export default function UserPost({ reload }) {
 
 const StyledLink = styled(Link)`
     margin-top: 40px;
+    font-weight: bold;
+    text-decoration: none;
     &:visited {
         color: white;
     }
