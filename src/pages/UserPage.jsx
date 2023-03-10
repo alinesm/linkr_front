@@ -1,19 +1,20 @@
 import styled from "styled-components"
 import TrendCard from "../components/TrendCard"
-import PostList from "../components/PostList"
+import UserPostList from "../components/UserPostList"
 import Header from "../components/Header"
+import { useState } from "react"
 
-export default function Timeline(){
+export default function Timeline() {
+    const [reload, setReload] = useState([])
     return (
         <>
-            <Header/>
-        <TimelineContainer>
-            <Header/>
-            <TimelineContent>
-                <PostList />
-                <TrendCard />
-            </TimelineContent> 
-        </TimelineContainer>
+            <Header setReload={setReload} />
+            <TimelineContainer>
+                <TimelineContent>
+                    <UserPostList reload={reload} />
+                    <TrendCard />
+                </TimelineContent>
+            </TimelineContainer>
         </>
     )
 }
@@ -23,7 +24,7 @@ const TimelineContainer = styled.div`
     justify-content: center;
     width:100%;
     background-color: #333333;
-    overflow: scroll;
+    overflow-y: scroll;
     margin-top: 55px;
 `
 const TimelineContent = styled.div`
@@ -32,5 +33,4 @@ const TimelineContent = styled.div`
     width:100%;
     height:100vh;
     color:#FFF;
-    margin-top: 60px;
 `

@@ -2,10 +2,13 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { BsSearch } from 'react-icons/bs'
+import { Link } from "react-router-dom"
+import { DebounceInput } from 'react-debounce-input';
 
-export default function SearchBar() {
+export default function SearchBar({ setReload }) {
     const [usersName, setUsersName] = useState([])
     const [filteredUsers, setFilteresUsers] = useState([])
+    const [input, setInput] = useState("")
     useEffect((() => {
         axios.get(`${process.env.REACT_APP_API_URL}users`)
             .then(res => {
@@ -18,6 +21,7 @@ export default function SearchBar() {
     }), [])
 
     function handleFilter(e) {
+        setInput(e.target.value)
         const letters = (e.target.value).toLowerCase()
         const filteredUsers = usersName.filter((user) => {
             return (user.user_name).toLowerCase().includes(letters)
@@ -27,13 +31,19 @@ export default function SearchBar() {
         } else {
 
             setFilteresUsers(filteredUsers)
+
         }
     }
 
     return (
         <div>
             <Search>
-                <input placeholder="Search for people" onChange={handleFilter} />
+                <DebounceInput
+                    minLength={3}
+                    debounceTimeout={300}
+                    placeholder="Search for people"
+                    onChange={handleFilter}
+                    value={input} />
                 <p><BsSearch /></p>
             </Search>
 
@@ -41,10 +51,16 @@ export default function SearchBar() {
                 <UsersBox>
                     {
                         filteredUsers.map((user) =>
-                            <div>
-                                <img src={user.image_url} alt='user'/>
-                                <p>{user.user_name}</p>
-                            </div>
+                            <StyledLink to={`/users/${user.id}`}>
+                                <div onClick={() => {
+                                    setReload([])
+                                    setFilteresUsers([])
+                                    setInput("")
+                                }} >
+                                    <img src={user.image_url} alt='user' />
+                                    <p>{user.user_name}</p>
+                                </div>
+                            </StyledLink>
                         )
                     }
 
@@ -53,6 +69,13 @@ export default function SearchBar() {
         </div>
     )
 }
+
+const StyledLink = styled(Link)`
+    justify-content: left!important;
+    width: 100%;
+
+`
+
 
 const Search = styled.div`
     display: flex;
@@ -85,19 +108,26 @@ const UsersBox = styled.div`
     width: 563px;
     margin-top: -10px;
     padding-top: 15px;
-    border-radius: 5px;  
-    background-color: white;
+    border-radius: 5px; 
     background-color: #E7E7E7;
     box-shadow: rgba(0,0,0,0.34) 0 5px 15px;
+    position: absolute;
+    height: 200px;
+    bottom: -185px;
+    flex-direction: column;
+    overflow-x: scroll;
+    z-index: 1;
+  
+   
    
         div {
             padding-top: 10px;
             padding-bottom: 10px;
             width: 100%;
             display: flex;
-            gap: 15px;
-            height: 40px;
-            align-items: center;
+            gap: 15px;           
+            height: 70px;     
+            padding-left: 30px;
             cursor: pointer;
                 &:hover {
                     background-color: white;

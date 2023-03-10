@@ -1,23 +1,34 @@
 import styled from "styled-components"
-import { SlArrowUp } from 'react-icons/sl'
+import { SlArrowUp,SlArrowDown } from 'react-icons/sl'
 import { useContext, useState } from "react"
 import { AuthContext } from "../providers/auth"
+import SearchBar from "./SearchBar"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
-export default function Header() {
+export default function Header({setReload}) {
+    const navigate = useNavigate()
     const [menu, setMenu] = useState(false)
     const { user } = useContext(AuthContext)
     console.log(user)
-
+    function logout() {
+        localStorage.removeItem('userSessionInfoLinkr')
+        const removeSession = axios.delete(`${process.env.REACT_APP_API_URL}/logout/${user.token}`)
+        removeSession.then((answer) => navigate('/'))
+        removeSession.catch((error) => alert(error.response.data))
+    }
     return (
         <HeaderStyle>
             <h1>linkr</h1>
+                <SearchBar setReload={setReload}/>
             <div>
-                <SlArrowUp onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" />
-                <LogOut open={menu} >Logout</LogOut>
-                <img src={user.user.image_url} />
-
+                {menu ? <SlArrowDown onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" /> : <SlArrowUp onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" />}
+                
+                <LogOut onClick={() => logout()} open={menu} data-test="menu">
+                    <p data-test="logout">Logout</p>
+                </LogOut>
+                <img src={user.user.image_url} onClick={() => setMenu(!menu)} data-test="avatar" />
             </div>
-
         </HeaderStyle>
     )
 }
@@ -31,7 +42,7 @@ const HeaderStyle = styled.div`
     left: 0;
     height:72px;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -46,12 +57,13 @@ const HeaderStyle = styled.div`
 
         }
         div {
-            display: flex;
-            justify-content: center;
+            display: flex;          
             align-items: center;
             gap: 10px;
+            
         }
         img {
+            cursor:pointer;
             width: 53px;
             height: 53px;
             border-radius: 26.5px
@@ -73,6 +85,7 @@ const LogOut = styled.div`
     cursor: pointer;
     color: #FFFFFF;
     right: 0;
+    padding-left: 40px;
     display: ${props => !props.open ? 'none!important' : 'block'}
 `
 

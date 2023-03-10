@@ -19,4 +19,7 @@ const LoginDiv = styled.div`
     width:100vw;
     height:100vh;
     min-height:100vh;
+    @media (max-width: 600px){
+        flex-direction: column;
+    }
 `;

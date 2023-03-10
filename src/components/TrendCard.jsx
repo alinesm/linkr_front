@@ -21,6 +21,7 @@ const TrendListDiv = styled.div`
     display: flex;
     flex-direction: column;
     margin: 15px;
+    
     p{
         display:block;
         font-family: Lato;
@@ -38,6 +39,7 @@ const TrendCardContainer = styled.div`
     height: 278px;
     background-color: black;
     border-radius: 16px;
+    margin-top: 150px;
 `
 const TitleDiv = styled.div`
     height: 50px;
