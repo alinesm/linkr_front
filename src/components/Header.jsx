@@ -1,12 +1,12 @@
 import styled from "styled-components"
-import { SlArrowUp,SlArrowDown } from 'react-icons/sl'
+import { SlArrowUp, SlArrowDown } from 'react-icons/sl'
 import { useContext, useState } from "react"
 import { AuthContext } from "../providers/auth"
 import SearchBar from "./SearchBar"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
-export default function Header({setReload}) {
+export default function Header({ setReload }) {
     const navigate = useNavigate()
     const [menu, setMenu] = useState(false)
     const { user } = useContext(AuthContext)
@@ -19,15 +19,15 @@ export default function Header({setReload}) {
     }
     return (
         <HeaderStyle>
-            <h1>linkr</h1>
-                <SearchBar setReload={setReload}/>
+            <h1 onClick={()=>navigate("/timeline")}>linkr</h1>
+            <SearchBar setReload={setReload} />
             <div>
                 {menu ? <SlArrowDown onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" /> : <SlArrowUp onClick={() => setMenu(!menu)} color="white" size={'25'} cursor="pointer" />}
-                
+
                 <LogOut onClick={() => logout()} open={menu} data-test="menu">
                     <p data-test="logout">Logout</p>
                 </LogOut>
-                <img  src={user.user.image_url} onClick={() => setMenu(!menu)} data-test="avatar" />
+                <img src={user.user.image_url} onClick={() => setMenu(!menu)} data-test="avatar" />
             </div>
         </HeaderStyle>
     )
@@ -46,15 +46,14 @@ const HeaderStyle = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-   
+    z-index: 3;
         h1 {
             font-family: 'Passion One';
             font-style: normal;
             font-weight: 700;
             font-size: 49px;
             color: #FFFFFF;
-           
-
+            cursor:pointer;
         }
         div {
             display: flex;          
@@ -68,7 +67,6 @@ const HeaderStyle = styled.div`
             height: 53px;
             border-radius: 26.5px
         }
-
 `
 
 const LogOut = styled.div`

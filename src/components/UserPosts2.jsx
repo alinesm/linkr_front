@@ -72,7 +72,7 @@ export default function UserPost({ reload }) {
                                         <MainDiv  >
                                             <HeaderPost>
                                                 <div>
-                                                    <h2 data-test="username" >{post.user_name}</h2>
+                                                    <Link to={"/users/28"} data-test="username" >{post.user_name}</Link>
                                                     <h3 data-test="description" >{post.description} {post.hashtags.map((h) => <StyledLink to={`/hashtag/${h.text}`}>{` #${h.text}  `}</StyledLink>)}</h3>
                                                 </div>
                                                 {post.user_id === user.user.id &&

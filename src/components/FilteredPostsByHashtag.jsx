@@ -10,9 +10,48 @@ export default function FilteredPostsByHashtag() {
 
   const [filteredPosts, setFilteredPosts] = useState([]);
 
-  const [hashtags, setHashtags] = useState([]);
+  const [withHashtags, setWithHashtags] = useState([]);
 
-  console.log(hashtags);
+  console.log("with", withHashtags);
+
+  async function getHashtags() {
+    try {
+      let hashtagByPost = [];
+
+      for (let i = 0; i < filteredPosts.length; i++) {
+        let currentPostId = filteredPosts[i].post_id;
+        let response = await axios.get(
+          `${
+            process.env.REACT_APP_API_URL
+          }hashtag/posts/${currentPostId.toString()}`
+        );
+        hashtagByPost.push({
+          postId: currentPostId,
+          hashtags: response.data,
+        });
+      }
+
+      console.log(`hashtags: `, hashtagByPost);
+
+      const newPosts = filteredPosts.map((post) => {
+        const matchingHashtags = hashtagByPost.find(
+          (hashtagPost) => hashtagPost.postId === post.post_id
+        );
+        if (matchingHashtags) {
+          return {
+            ...post,
+            hashtags: matchingHashtags.hashtags,
+          };
+        }
+        return post;
+      });
+
+      setWithHashtags(newPosts);
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  }
 
   useEffect(() => {
     axios
@@ -21,75 +60,58 @@ export default function FilteredPostsByHashtag() {
         setFilteredPosts(res.data);
         console.log("data", res.data);
       });
-    axios.get(`${process.env.REACT_APP_API_URL}/hashtag/posts/3`).then((res) => {
-      console.log(res.data);
-      setHashtags(res.data);
-    });
   }, []);
-  console.log(filteredPosts);
+  console.log("filteredposts", filteredPosts);
+
+  useEffect(() => {
+    if (filteredPosts.length) {
+      getHashtags();
+    }
+  }, [filteredPosts]);
 
   return (
     <>
-      {filteredPosts.map((p) => (
-        <>
-          {/* <PageTitle>
-            <img src={p.image_url} alt="userPic" />
-            {`${p.user_name}'s post`}
-          </PageTitle> */}
-          <ContainerPost>
-            <>
-              <ProfilePicDiv>
-                <img src={p.image_url} alt="profilepic" />
-                <LikeButton postId={p.post_id} />
-              </ProfilePicDiv>
+      {withHashtags.map((post) => (
+        <ContainerPost data-test="post">
+          <>
+            <ProfilePicDiv>
+              <img src={post.image_url} alt="profilepic" />
+              <LikeButton postId={post.id} />
+            </ProfilePicDiv>
 
-              <MainDiv>
-                <HeaderPost>
-                  <div>
-                    <h2>{p.user_name}</h2>
-                    <h3>
-                      {p.description}
-                      <span>
-                        {hashtags.map((h) => (
-                          //     <span>
-                          //       #
-                          //       <ReactTagify
-                          //         tagClicked={(tag) => {
-                          //           navigate(`/hashtag/${tag}`);
-                          //         }}
-                          //       >
-                          //         {h}
-                          //       </ReactTagify>
-                          //     </span>
-
-                          <Link to={`/hashtag/${h}`}>
-                            <button type="button" name="hashtag">
-                              {h}
-                            </button>
-                          </Link>
-                        ))}
-                      </span>
-                    </h3>
-                  </div>
-                  <ChangeButton>
-                    <ion-icon name="pencil"></ion-icon>
-                    <ion-icon name="trash"></ion-icon>
-                  </ChangeButton>
-                </HeaderPost>
-                <PostContent onClick={() => window.open(`${p.link}`, "_blank")}>
-                  <div>
-                    <h1>{p.title}</h1>
-                    <h2>{p.postDescription}</h2>
-                    <a href={p.link} target="_blank">
-                      {p.link}
-                    </a>
-                  </div>
-                  <img src={p.image} />
-                </PostContent>
-              </MainDiv>
-            </>
-          </ContainerPost>
-        </>
+            <MainDiv>
+              <HeaderPost>
+                <div>
+                  <h2>{post.user_name}</h2>
+                  <h3>{post.description}</h3>
+                  <span>
+                    {post.hashtags.map((h) => (
+                      <Link to={`/hashtag/${h}`}>
+                        <span>#{h}</span>
+                      </Link>
+                    ))}
+                  </span>
+                </div>
+                <ChangeButton>
+                  <ion-icon name="pencil"></ion-icon>
+                  <ion-icon name="trash"></ion-icon>
+                </ChangeButton>
+              </HeaderPost>
+              <PostContent
+                onClick={() => window.open(`${post.link}`, "_blank")}
+              >
+                <div>
+                  <h1>{post.title}</h1>
+                  <h2>{post.postDescription}</h2>
+                  <a href={post.link} target="_blank">
+                    {post.link}
+                  </a>
+                </div>
+                <img src={post.image} />
+              </PostContent>
+            </MainDiv>
+          </>
+        </ContainerPost>
       ))}
     </>
   );
