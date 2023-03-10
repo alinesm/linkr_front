@@ -9,20 +9,21 @@ import { Oval, RotatingLines } from "react-loader-spinner"
 
 export default function UserPost({ reload }) {
 
+    const { user } = useContext(AuthContext)
 
-    const { id } = useParams()
 
-    const [userPosts, setUserPosts] = useState([])
+  
+
+    const [posts, setPosts] = useState([])
     const [userData, setUserData] = useState([])
     const [loading, setLoading] = useState(true)
-    const [postHashtags, setPostHashtags] = useState([])
+  
 
     useEffect(() => {
-        setLoading(true)
-        axios.get(`${process.env.REACT_APP_API_URL}/users/${id}`)
+
+        axios.get(`${process.env.REACT_APP_API_URL}/timeline`)
             .then(res => {
-                setUserPosts(res.data.posts)
-                setUserData(res.data)
+                setPosts(res.data)
                 setLoading(false)
                 console.log(res.data)
             })
@@ -32,7 +33,7 @@ export default function UserPost({ reload }) {
 
 
 
-
+    console.log(user)
     return (
         <>
             {loading ?
@@ -52,33 +53,36 @@ export default function UserPost({ reload }) {
                     />
                 </StyledLoading>
                 :
-                userPosts ?
+                posts ?
                     <>
 
                         <PageTitle>
 
-                            <img src={userData.image_url} alt='userPic' />
-                            {`${userData.user_name}'s post`}
+                            timeline
                         </PageTitle>
                         {
-                            userPosts.map((post =>
+                            posts.map((post =>
                                 <ContainerPost data-test="post">
                                     <>
                                         <ProfilePicDiv>
-                                            <img src={userData.image_url} alt='profilepic' />
-                                            <LikeButton setPostHashtags={setPostHashtags} postId={post.id} />
+                                            <img src={post.image_url} alt='profilepic' />
+                                            <LikeButton postId={post.id} />
                                         </ProfilePicDiv>
 
                                         <MainDiv  >
                                             <HeaderPost>
                                                 <div>
-                                                    <h2 data-test="username" >{userData.user_name}</h2>
+                                                    <h2 data-test="username" >{post.user_name}</h2>
                                                     <h3 data-test="description" >{post.description} {post.hashtags.map((h) => <StyledLink to={`/hashtag/${h.text}`}>{` #${h.text}  `}</StyledLink>)}</h3>
                                                 </div>
-                                                <ChangeButton>
-                                                    <ion-icon name="pencil"></ion-icon>
-                                                    <ion-icon name="trash"></ion-icon>
-                                                </ChangeButton>
+                                                {post.user_id === user.user.id &&
+                                                    <ChangeButton>
+                                                        <ion-icon name="pencil"></ion-icon>
+                                                        <ion-icon name="trash"></ion-icon>
+                                                    </ChangeButton>
+
+                                                } 
+
                                             </HeaderPost>
                                             <PostContent data-test="link" onClick={() => window.open(`${post.link}`, "_blank")}>
                                                 <div>

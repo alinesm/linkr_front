@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import Post from "./Post";
+import UserPost2 from "./UserPosts2";
 
 export default function PostList() {
     return (
         <PostListContainer>
-            <Post />
-            <Post />
-            <Post />
+            <UserPost2 />
         </PostListContainer>
     );
 }

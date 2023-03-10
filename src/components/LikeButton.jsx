@@ -114,7 +114,7 @@ export default function LikeButton({ postId, setPostHashtags }) {
             {
                 <Tooltip content={users} placement='bottom' data-test="tooltip">
                     <Likes>
-                        {liked ? <AiFillHeart data-test="like-btn" size={'25px'} onClick={() => likePost('liked')} cursor={'pointer'} /> : <AiOutlineHeart data-test="like-btn" size={'25px'}  onClick={() => likePost('notLiked')} cursor={'pointer'} />
+                        {liked ? <AiFillHeart color='red' data-test="like-btn" size={'25px'} onClick={() => likePost('liked')} cursor={'pointer'} /> : <AiOutlineHeart data-test="like-btn" size={'25px'}  onClick={() => likePost('notLiked')} cursor={'pointer'} />
                         }
                         <p data-test="counter" >{postLikes.length } likes</p>
                         
