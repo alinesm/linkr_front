@@ -63,7 +63,7 @@ export default function UserPost({ reload }) {
                         </PageTitle>
                         {
                             userPosts.map((post =>
-                                <ContainerPost>
+                                <ContainerPost data-test="post">
                                     <>
                                         <ProfilePicDiv>
                                             <img src={userData.image_url} alt='profilepic' />
@@ -73,15 +73,15 @@ export default function UserPost({ reload }) {
                                         <MainDiv  >
                                             <HeaderPost>
                                                 <div>
-                                                    <h2>{userData.user_name}</h2>
-                                                    <h3 >{post.description} {post.hashtags.map((h)=> <StyledLink to={`/hashtag/${h.text}`}>{` #${h.text}  `}</StyledLink>) }</h3>
+                                                    <h2 data-test="username" >{userData.user_name}</h2>
+                                                    <h3 data-test="description" >{post.description} {post.hashtags.map((h)=> <StyledLink to={`/hashtag/${h.text}`}>{` #${h.text}  `}</StyledLink>) }</h3>
                                                 </div>
                                                 <ChangeButton>
                                                     <ion-icon name="pencil"></ion-icon>
                                                     <ion-icon name="trash"></ion-icon>
                                                 </ChangeButton>
                                             </HeaderPost>
-                                            <PostContent onClick={() => window.open(`${post.link}`, "_blank")}>
+                                            <PostContent data-test="link" onClick={() => window.open(`${post.link}`, "_blank")}>
                                                 <div>
                                                     <h1>{post.title}</h1>
                                                     <h2>{post.postDescription}</h2>
