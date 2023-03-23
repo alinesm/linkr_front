@@ -16,31 +16,20 @@ export default function TrendCard() {
   }, []);
 
   return (
-    <RightSide>
-      <FollowButton>
-        Follow
-      </FollowButton>
-      <TrendCardContainer data-test="trending">
-        <TitleDiv>
-          <h2>trending</h2>
-        </TitleDiv>
-        <TrendListDiv>
-          {hashtags.map((h) => (
-            <p data-test="hashtag">
-              #<ReactTagify>{h}</ReactTagify>
-            </p>
-          ))}
-        </TrendListDiv>
-      </TrendCardContainer>
-    </RightSide>
+    <TrendCardContainer data-test="trending">
+      <TitleDiv>
+        <h2>trending</h2>
+      </TitleDiv>
+      <TrendListDiv>
+        {hashtags.map((h) => (
+          <p data-test="hashtag">
+            #<ReactTagify>{h}</ReactTagify>
+          </p>
+        ))}
+      </TrendListDiv>
+    </TrendCardContainer>
   );
 }
-const RightSide = styled.div`
-  display:flex;
-  flex-direction: column;
-  width: 31%;
-  align-items: flex-end;
-`;
 
 const TrendListDiv = styled.div`
   display: flex;
@@ -58,8 +47,8 @@ const TrendListDiv = styled.div`
   }
 `;
 const TrendCardContainer = styled.div`
-  margin-top: 50px;
-  width: 100%;
+  margin-top: 150px;
+  width: 31%;
   height: 278px;
   background-color: black;
   border-radius: 16px;
@@ -78,14 +67,4 @@ const TitleDiv = styled.div`
     text-align: left;
     margin-left: 15px;
   }
-`;
-
-const FollowButton = styled.button`
-  margin-top: 70px;
-  height: 31px;
-  width: 112px;
-  border:none;
-  border-radius: 5px;
-  background-color: #1877F2;
-  color:#FFFFFF;
 `;
