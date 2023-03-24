@@ -1,13 +1,14 @@
 import axios from "axios";
 import React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../providers/auth";
-import LikeButton from "./LikeButton";
-import { Oval, RotatingLines } from "react-loader-spinner";
-import { async } from "q";
+
+import { Oval,  } from "react-loader-spinner";
+
 import Loading from "./Loading";
+import PostInfos from "./PostInfos";
 
 export default function UserPost({ reload }) {
   const { id } = useParams();
@@ -62,12 +63,13 @@ export default function UserPost({ reload }) {
     setLoading(true);
     axios.get(`${process.env.REACT_APP_API_URL}/users/${id}`)
       .then((res) => {
-        console.log('oir')
+       
         setUserPosts(res.data.posts);
         setUserData(res.data);
         setLoading(false);
-        console.log(res.data);
+       
       });
+       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   // useEffect(() => {
@@ -104,40 +106,8 @@ export default function UserPost({ reload }) {
               <img src={userData.image_url} alt='userPic' />
               {`${userData.user_name}'s post`}
             </PageTitle>
-            {
-              userPosts.map((post =>
-                <ContainerPost data-test="post">
-                  <>
-                    <ProfilePicDiv>
-                      <img src={userData.image_url} alt='profilepic' />
-                      <LikeButton postId={post.id} />
-                    </ProfilePicDiv>
+            {userPosts.map((p) => <PostInfos post={p} userData={userData} />)}
 
-                    <MainDiv  >
-                      <HeaderPost>
-                        <div>
-                          <h2 data-test="username" >{userData.user_name}</h2>
-                          <h3 data-test="description" >{post.description} {post.hashtags.map((h) => <StyledLink to={`/hashtag/${h.text}`}>{` #${h.text}  `}</StyledLink>)}</h3>
-                        </div>
-                        <ChangeButton>
-                          <ion-icon name="pencil"></ion-icon>
-                          <ion-icon name="trash"></ion-icon>
-                        </ChangeButton>
-                      </HeaderPost>
-                      <PostContent data-test="link" onClick={() => window.open(`${post.link}`, "_blank")}>
-                        <div>
-                          <h1>{post.title}</h1>
-                          <h2>{post.postDescription}</h2>
-                          <a href={post.link} target="_blank">{post.link}</a>
-                        </div>
-                        <img src={post.image} />
-                      </PostContent>
-                    </MainDiv>
-                  </>
-
-                </ContainerPost>
-              ))
-            }
           </>
           :
           <>
@@ -158,19 +128,6 @@ export default function UserPost({ reload }) {
 
 
 }
-
-const FollowButton = styled.button`
-  position:absolute;
-  top:130px;
-  right:110px;
-  height: 31px;
-  width: 112px;
-  border:none;
-  border-radius: 5px;
-  background-color: #1877F2;
-  color:#FFFFFF;
-  cursor:pointer;
-`;
 
 const StyledLink = styled(Link)`
   margin-top: 40px;
@@ -215,139 +172,3 @@ const PageTitle = styled.div`
   }
 `;
 
-const ContainerPost = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 611px;
-  /* height: 278px; */
-  background: #171717;
-  margin: 30px;
-  border-radius: 16px;
-
-  p {
-    color: #000000;
-  }
-`;
-
-const HeaderPost = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 500px;
-  height: 30px;
-  color: white;
-  margin-top: 20px;
-  font-family: Lato;
-  font-size: 19px;
-  font-weight: 400;
-  line-height: 23px;
-  letter-spacing: 0em;
-  text-align: left;
-
-  h2 {
-    padding-left: 3px;
-  }
-  div {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-
-    ion-icon {
-      font-size: 22px;
-      margin: 0px 5px;
-    }
-  }
-  h3 {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 17px;
-    color: #b7b7b7;
-  }
-`;
-const PostContent = styled.div`
-  display: flex;
-  width: 503px;
-  border: 1px solid #4d4d4d;
-  border-radius: 11px;
-  margin-top: 40px;
-  cursor: pointer;
-  word-wrap: break-word !important;
-  div {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
-    padding: 15px;
-    word-wrap: break-word !important;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    h1 {
-      font-size: 16px;
-      color: #cecece;
-    }
-    h2 {
-      font-size: 11px;
-      color: #9b9595;
-    }
-    a {
-      font-size: 11px;
-      color: #cecece;
-    }
-  }
-
-  img {
-    width: 153.44px;
-    height: inherit;
-    border-radius: 0px 12px 13px 0px;
-  }
-
-  p {
-    width: 500px;
-    font-family: Lato;
-    font-size: 17px;
-    font-weight: 400;
-    line-height: 20px;
-    text-align: left;
-    color: #ffffff;
-    margin: 10px 0px;
-    padding-left: 3px;
-  }
-`;
-const ProfilePicDiv = styled.div`
-  display: flex;
-  align-items: center;
-  width: 96px;
-  flex-direction: column;
-
-  img {
-    width: 50px;
-    border-radius: 50%;
-    margin: 18px;
-  }
-
-  ion-icon {
-    font-size: 30px;
-  }
-  p {
-    font-family: Lato;
-    font-size: 11px;
-    font-weight: 400;
-    text-align: center;
-    color: #ffffff;
-  }
-`;
-const MainDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 611px;
-  height: 276px;
-  background: #171717;
-  border-radius: 16px;
-`;
-
-const ChangeButton = styled.div`
-  flex-direction: row !important;
-`;

@@ -134,9 +134,9 @@ const Likes = styled.div`
    justify-content: center;
    flex-direction: column;
    align-items: center;
-   margin-top: 10px;
-   gap: 5px;
+    gap: 5px;
    width: 50px;
+   margin-bottom: 10px;
     p {
         font-family: 'Lato';
         font-style: normal;

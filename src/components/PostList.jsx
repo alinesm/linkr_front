@@ -1,7 +1,9 @@
+import { useState } from "react";
 import styled from "styled-components";
 import UserPost2 from "./UserPosts2";
 
 export default function PostList() {
+  
     return (
         <PostListContainer>
             <UserPost2 />
