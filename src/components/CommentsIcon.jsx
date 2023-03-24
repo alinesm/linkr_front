@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { AiOutlineComment } from "react-icons/ai"
 import styled from "styled-components"
 
-export default function CommentIcon({ postId, seeComments, setSeeComments  }) {
+export default function CommentIcon({ postId, seeComments, setSeeComments ,updateCommentsIcon }) {
     const [comments, setComments] = useState([])
     useEffect(() => {
 
@@ -12,7 +12,8 @@ export default function CommentIcon({ postId, seeComments, setSeeComments  }) {
                 setComments(res.data)
 
             })
-    }, [])
+             // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [updateCommentsIcon])
     
     return (
         <>

@@ -10,8 +10,9 @@ import { Oval,  } from "react-loader-spinner";
 import Loading from "./Loading";
 import PostInfos from "./PostInfos";
 
-export default function UserPost({ reload }) {
+export default function UserPost({ reload, setReload }) {
   const { id } = useParams();
+  const [reloadComments, setReloadComments] = useState([])
  
   const { user } = React.useContext(AuthContext)
   const [userPosts, setUserPosts] = useState([]);
@@ -156,7 +157,7 @@ export default function UserPost({ reload }) {
                 {followSubmitted ? <Loading /> : (followRelation ? "unfollow" : "follow")}
               </FollowButton>
             </PageTitle>
-            {userPosts.map((p) => <PostInfos post={p} userData={userData} />)}
+            {userPosts.map((p) => <PostInfos followRelation={followRelation} setReload={setReload} setReloadComments={setReloadComments}  post={p} userData={userData} />)}
 
           </>
           :

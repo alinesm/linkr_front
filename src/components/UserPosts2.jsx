@@ -10,31 +10,25 @@ import PostInfos from "./PostInfos"
 export default function UserPost({ reload }) {
 
     const { user } = useContext(AuthContext)
+    const {loadingComments} = useContext(AuthContext)
+    console.log(loadingComments)
 
     const [posts, setPosts] = useState([])
   
 
     const [loading, setLoading] = useState(true)
 
+    const [reloadComments, setReloadComments] = useState([])
+
 
     useEffect(() => {
 
         axios.get(`${process.env.REACT_APP_API_URL}/timeline`)
             .then(res => {
-             
                 setPosts(res.data)   
                 setLoading(false)
-              
-                
-                
             })
-    }, [reload])
-
-    
-
-
-
-
+    }, [reload, reloadComments])
 
 
     console.log(user)
@@ -64,7 +58,7 @@ export default function UserPost({ reload }) {
 
                             timeline
                         </PageTitle>
-                        {posts.map((p) => <PostInfos post={p} />)}
+                        {posts.map((p) => <PostInfos post={p} setReloadComments={setReloadComments}/>)}
                         
                        
 
