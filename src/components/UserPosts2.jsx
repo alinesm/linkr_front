@@ -3,39 +3,30 @@ import { useContext, useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import styled from "styled-components"
 import { AuthContext } from "../providers/auth"
-import { Oval,  } from "react-loader-spinner"
+import { Oval, } from "react-loader-spinner"
 import PostInfos from "./PostInfos"
 
 
 export default function UserPost({ reload }) {
 
     const { user } = useContext(AuthContext)
-
     const [posts, setPosts] = useState([])
-  
-
+    const [friends, setFriends] = useState(false)
     const [loading, setLoading] = useState(true)
 
 
     useEffect(() => {
-
-        axios.get(`${process.env.REACT_APP_API_URL}/timeline`)
+        console.log(user)
+        axios.get(`${process.env.REACT_APP_API_URL}/timeline/${user.user.id}`)
             .then(res => {
-             
-                setPosts(res.data)   
+                setPosts(res.data.posts)
+                setFriends(res.data.friends)
                 setLoading(false)
-              
-                
-                
+            })
+            .catch(err =>{
+                alert(err.response.data)
             })
     }, [reload])
-
-    
-
-
-
-
-
 
     console.log(user)
     return (
@@ -57,28 +48,33 @@ export default function UserPost({ reload }) {
                     />
                 </StyledLoading>
                 :
-                posts ?
-                    <>
+                friends ?
+                    posts ?
+                        <>
 
-                        <PageTitle>
+                            <PageTitle>
 
-                            timeline
-                        </PageTitle>
-                        {posts.map((p) => <PostInfos post={p} />)}
-                        
-                       
+                                timeline
+                            </PageTitle>
+                            {posts.map((p) => <PostInfos post={p} />)}
 
-                    </>
+
+
+                        </>
+                        :
+                        <>
+                            <Text>No posts found from your friends</Text>
+                            <StyledLink to={"/timeline"}>
+                                Volta para home
+                            </StyledLink>
+                        </>
                     :
                     <>
-                        <Text>Este usuário não possuí nenhum post</Text>
+                        <Text>You don't follow anyone yet. Search for new friends!</Text>
                         <StyledLink to={"/timeline"}>
                             Volta para home
                         </StyledLink>
                     </>
-
-
-
             }
 
         </>
@@ -130,7 +126,7 @@ const PageTitle = styled.div`
 
 `
 
-  
+
 
 
 
