@@ -109,7 +109,7 @@ export default function UserPost({ reload, setReload }) {
               <img src={userData.image_url} alt='userPic' />
               {`${userData.user_name}'s post`}
             </PageTitle>
-            {userPosts.map((p) => <PostInfos followRelation={followRelation} setReload={setReload} setReloadComments={setReloadComments}  post={p} userData={userData} />)}
+            {userPosts.map((p) => <PostInfos setReload={setReload} setReloadComments={setReloadComments}  post={p} userData={userData} />)}
 
           </>
           :

@@ -6,7 +6,7 @@ import Comments from "./Comments"
 import CommentIcon from "./CommentsIcon"
 import LikeButton from "./LikeButton"
 
-export default function PostInfos({ post, userData, setReload, setReloadComments, followRelation}) {
+export default function PostInfos({ post, userData, setReload, setReloadComments}) {
     const [seeComments, setSeeComments] = useState(false)
     const [updateCommentsIcon, setUpdateCommentsIcon] = useState([]) 
     console.log(post)
@@ -69,7 +69,7 @@ export default function PostInfos({ post, userData, setReload, setReloadComments
 
                     </ContainerPost>
                     <DivTest seeComment={seeComments}>
-                        <Comments userData={userData} followRelation={followRelation} seeComment={seeComments} post={post} setReload={setReload} setReloadComments={setReloadComments} setUpdateCommentsIcon={setUpdateCommentsIcon}/>
+                        <Comments userData={userData}  seeComment={seeComments} post={post} setReload={setReload} setReloadComments={setReloadComments} setUpdateCommentsIcon={setUpdateCommentsIcon}/>
                     </DivTest>
                 </>
 
