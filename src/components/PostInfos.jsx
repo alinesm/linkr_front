@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { AuthContext } from "../providers/auth"
 import Comments from "./Comments"
@@ -8,8 +8,7 @@ import LikeButton from "./LikeButton"
 
 export default function PostInfos({ post, userData }) {
     const [seeComments, setSeeComments] = useState(false)
-    const location = useLocation()
-    console.log(location.pathname)
+  
 
     const { user } = useContext(AuthContext)
     return (
@@ -60,9 +59,9 @@ export default function PostInfos({ post, userData }) {
                                     <div>
                                         <h1>{post.title}</h1>
                                         <h2>{post.postDescription}</h2>
-                                        <a href={post.link} target="_blank">{post.link}</a>
+                                        <a href={post.link} target="_blank" rel="noreferrer">{post.link}</a>
                                     </div>
-                                    <img src={post.image} />
+                                    <img src={post.image} alt='postPic' />
                                 </PostContent>
                             </MainDiv>
                         </>
