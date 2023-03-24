@@ -18,8 +18,6 @@ export default function UserPost({ reload, setReload }) {
   const [userPosts, setUserPosts] = useState([]);
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [followRelation, setFollowRelation] = useState(false);
-  const [followSubmitted, setFollowSubmitted] = useState(false);
   // const [userPostsWithHashtags, setUserPostsWithHashtags] = useState([]);
 
   // console.log("userPostsWithHashtags: ", userPostsWithHashtags);
@@ -77,52 +75,11 @@ export default function UserPost({ reload, setReload }) {
        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
-  useEffect(() => {
-    const followRelation = { followerId: user.user.id, followedId: userData.id }
-    console.log(followRelation)
-    axios.put(`${process.env.REACT_APP_API_URL}/find_follow`, followRelation)
-      .then((res) => {
-        if (res.data.length !== 0) {
-          setFollowRelation(true)
-        }
-      })
-       // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData]);
-
   // useEffect(() => {
   //   if (userPosts.length) {
   //     getHashtags();
   //   }
   // }, [userPosts]);
-
-
-  function follow() {
-    setFollowSubmitted(true)
-    const followRelation = { followerId: user.user.id, followedId: userData.id }
-    axios.post(`${process.env.REACT_APP_API_URL}/follow`, followRelation)
-      .then((res) => {
-        setFollowRelation(true);
-        setFollowSubmitted(false);
-      })
-      .catch((err) => {
-        setFollowSubmitted(false);
-        alert("Não foi possivel realizar a operação");
-      })
-  }
-
-  function unfollow() {
-    setFollowSubmitted(true);
-    const followRelation = { followerId: user.user.id, followedId: userData.id }
-    axios.post(`${process.env.REACT_APP_API_URL}/unfollow`, followRelation)
-      .then((res) => {
-        setFollowRelation(false);
-        setFollowSubmitted(false);
-      })
-      .catch((err) => {
-        setFollowSubmitted(false);
-        alert("Não foi possivel realizar a operação");
-      })
-  }
 
   return (
     <>
@@ -151,11 +108,6 @@ export default function UserPost({ reload, setReload }) {
 
               <img src={userData.image_url} alt='userPic' />
               {`${userData.user_name}'s post`}
-              <FollowButton disabled={followSubmitted} onClick={() => {
-                followRelation ? unfollow() : follow()
-              }}>
-                {followSubmitted ? <Loading /> : (followRelation ? "unfollow" : "follow")}
-              </FollowButton>
             </PageTitle>
             {userPosts.map((p) => <PostInfos followRelation={followRelation} setReload={setReload} setReloadComments={setReloadComments}  post={p} userData={userData} />)}
 
@@ -179,19 +131,6 @@ export default function UserPost({ reload, setReload }) {
 
 
 }
-
-const FollowButton = styled.button`
-  position:absolute;
-  top:130px;
-  right:110px;
-  height: 31px;
-  width: 112px;
-  border:none;
-  border-radius: 5px;
-  background-color: #1877F2;
-  color:#FFFFFF;
-  cursor:pointer;
-`;
 
 const StyledLink = styled(Link)`
   margin-top: 40px;
