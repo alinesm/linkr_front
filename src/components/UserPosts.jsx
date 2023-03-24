@@ -11,13 +11,9 @@ import Loading from "./Loading";
 
 export default function UserPost({ reload }) {
   const { id } = useParams();
-  console.log(id)
-  const { user } = React.useContext(AuthContext)
   const [userPosts, setUserPosts] = useState([]);
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [followRelation, setFollowRelation] = useState(false);
-  const [followSubmitted, setFollowSubmitted] = useState(false);
   // const [userPostsWithHashtags, setUserPostsWithHashtags] = useState([]);
 
   // console.log("userPostsWithHashtags: ", userPostsWithHashtags);
@@ -74,51 +70,11 @@ export default function UserPost({ reload }) {
       });
   }, [reload]);
 
-  useEffect(() => {
-    const followRelation = {followerId: user.user.id, followedId: userData.id}
-    console.log(followRelation)
-    axios.put(`${process.env.REACT_APP_API_URL}/find_follow`, followRelation)
-      .then((res) => {
-        if(res.data.length !== 0){
-          setFollowRelation(true)
-        }
-      })
-  }, [userData]);
-
   // useEffect(() => {
   //   if (userPosts.length) {
   //     getHashtags();
   //   }
   // }, [userPosts]);
-
-
-  function follow(){
-    setFollowSubmitted(true)
-    const followRelation = {followerId: user.user.id, followedId: userData.id}
-    axios.post(`${process.env.REACT_APP_API_URL}/follow`, followRelation)
-      .then((res)=>{
-        setFollowRelation(true);
-        setFollowSubmitted(false);
-      })
-      .catch((err)=>{
-        setFollowSubmitted(false);
-        alert("Não foi possivel realizar a operação");
-      })
-  }
-  
-  function unfollow(){
-    setFollowSubmitted(true);
-    const followRelation = {followerId: user.user.id, followedId: userData.id}
-    axios.post(`${process.env.REACT_APP_API_URL}/unfollow`, followRelation)
-      .then((res)=>{
-        setFollowRelation(false);
-        setFollowSubmitted(false);
-      })
-      .catch((err)=>{
-        setFollowSubmitted(false);
-        alert("Não foi possivel realizar a operação");
-      })
-  }
 
   return (
     <>
@@ -147,11 +103,6 @@ export default function UserPost({ reload }) {
 
               <img src={userData.image_url} alt='userPic' />
               {`${userData.user_name}'s post`}
-              <FollowButton disabled={followSubmitted} onClick={()=>{
-                followRelation ? unfollow() : follow()
-              }}>
-                {followSubmitted ? <Loading/> : (followRelation ? "unfollow" : "follow")}
-              </FollowButton>
             </PageTitle>
             {
               userPosts.map((post =>
