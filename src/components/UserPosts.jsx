@@ -8,6 +8,7 @@ import LikeButton from "./LikeButton";
 import { Oval, RotatingLines } from "react-loader-spinner";
 import { async } from "q";
 import Loading from "./Loading";
+import PostInfos from "./PostInfos";
 
 export default function UserPost({ reload }) {
   const { id } = useParams();
@@ -153,7 +154,8 @@ export default function UserPost({ reload }) {
                 {followSubmitted ? <Loading/> : (followRelation ? "unfollow" : "follow")}
               </FollowButton>
             </PageTitle>
-            {
+            {userPosts.map((p) => <PostInfos post={p} userData={userData}/>)}
+            {/* {
               userPosts.map((post =>
                 <ContainerPost data-test="post">
                   <>
@@ -186,7 +188,7 @@ export default function UserPost({ reload }) {
 
                 </ContainerPost>
               ))
-            }
+            } */}
           </>
           :
           <>

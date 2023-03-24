@@ -1,13 +1,15 @@
 import { useContext, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import styled from "styled-components"
 import { AuthContext } from "../providers/auth"
 import Comments from "./Comments"
 import CommentIcon from "./CommentsIcon"
 import LikeButton from "./LikeButton"
 
-export default function PostInfos({ post }) {
+export default function PostInfos({ post, userData }) {
     const [seeComments, setSeeComments] = useState(false)
+    const location = useLocation()
+    console.log(location.pathname)
 
     const { user } = useContext(AuthContext)
     return (
@@ -18,7 +20,12 @@ export default function PostInfos({ post }) {
                     <ContainerPost data-test="post">
                         <>
                             <ProfilePicDiv>
-                                <img src={post.image_url} alt='profilepic' />
+
+                                {!userData ?
+                                    <img src={post.image_url} alt='profilepic' />
+                                    :
+                                    <img src={userData.image_url} alt='profilepic' />}
+
                                 <LikeButton postId={post.id} />
 
 
@@ -31,7 +38,13 @@ export default function PostInfos({ post }) {
                             <MainDiv  >
                                 <HeaderPost>
                                     <div>
-                                        <Link to={`/users/${post.user_id}`} data-test="username" >{post.user_name}</Link>
+                                        {!userData ?
+                                            <Link to={`/users/${post.user_id}`} data-test="username" >{post.user_name}</Link>
+
+                                            :
+                                            <Link data-test="username" >{userData.user_name}</Link>
+                                        }
+
                                         <h3 data-test="description" >{post.description} {post.hashtags.map((h) => <StyledLink to={`/hashtag/${h.text}`}>{` #${h.text}  `}</StyledLink>)}</h3>
                                     </div>
                                     {post.user_id === user.user.id &&
@@ -61,7 +74,7 @@ export default function PostInfos({ post }) {
 
 
 
-                  
+
 
 
 

@@ -19,14 +19,21 @@ export default function CommentIcon({ postId, seeComments, setSeeComments  }) {
             {comments.length > 0 ?
                 <Icon  onClick={() => {
                     setSeeComments(!seeComments)
-                    console.log(seeComments)
+                    
                     
                     }}>
                     <AiOutlineComment size={'25px'}  />
                     {comments.length} comments
                 </Icon>
                 :
-                <div>Oi</div>
+                <Icon  onClick={() => {
+                    setSeeComments(!seeComments)
+                    
+                    
+                    }}>
+                    <AiOutlineComment size={'25px'}  />
+                    0 comments
+                </Icon>
 
             }
 

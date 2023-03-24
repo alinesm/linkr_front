@@ -1,10 +1,11 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { IoPaperPlaneOutline } from "react-icons/io5"
 import styled from "styled-components"
 import { AuthContext } from "../providers/auth"
 
 export default function Comments({post, seeComment}) {
     const {user} = useContext(AuthContext)
+    console.log(post)
    
     return (
         <CommentsContainer  seeComment={seeComment}>
