@@ -10,8 +10,11 @@ import { Oval,  } from "react-loader-spinner";
 import Loading from "./Loading";
 import PostInfos from "./PostInfos";
 
-export default function UserPost({ reload }) {
+export default function UserPost({ reload, setReload }) {
   const { id } = useParams();
+  const [reloadComments, setReloadComments] = useState([])
+ 
+  const { user } = React.useContext(AuthContext)
   const [userPosts, setUserPosts] = useState([]);
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -106,7 +109,7 @@ export default function UserPost({ reload }) {
               <img src={userData.image_url} alt='userPic' />
               {`${userData.user_name}'s post`}
             </PageTitle>
-            {userPosts.map((p) => <PostInfos post={p} userData={userData} />)}
+            {userPosts.map((p) => <PostInfos followRelation={followRelation} setReload={setReload} setReloadComments={setReloadComments}  post={p} userData={userData} />)}
 
           </>
           :

@@ -10,9 +10,13 @@ import PostInfos from "./PostInfos"
 export default function UserPost({ reload }) {
 
     const { user } = useContext(AuthContext)
+    const {loadingComments} = useContext(AuthContext)
+    console.log(loadingComments)
     const [posts, setPosts] = useState([])
     const [friends, setFriends] = useState(false)
     const [loading, setLoading] = useState(true)
+
+    const [reloadComments, setReloadComments] = useState([])
 
 
     useEffect(() => {
@@ -26,9 +30,8 @@ export default function UserPost({ reload }) {
             .catch(err =>{
                 alert(err.response.data)
             })
-    }, [reload])
+    }, [reload, reloadComments])
 
-    console.log(user)
     return (
         <>
             {loading ?
@@ -51,15 +54,10 @@ export default function UserPost({ reload }) {
                 friends ?
                     posts ?
                         <>
-
-                            <PageTitle>
-
-                                timeline
-                            </PageTitle>
-                            {posts.map((p) => <PostInfos post={p} />)}
-
-
-
+                          <PageTitle>
+                            timeline
+                          </PageTitle>
+                          {posts.map((p) => <PostInfos post={p} setReloadComments={setReloadComments}/>)}
                         </>
                         :
                         <>

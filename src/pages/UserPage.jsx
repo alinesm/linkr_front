@@ -11,7 +11,7 @@ export default function Timeline() {
             <Header setReload={setReload} />
             <TimelineContainer>
                 <TimelineContent>
-                    <UserPostList reload={reload} />
+                    <UserPostList reload={reload} setReload={setReload} />
                     <TrendCard />
                 </TimelineContent>
             </TimelineContainer>

@@ -4,8 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Loading from "./Loading";
-import LikeButton from "./LikeButton";
-import Header from "./Header";
+
 
 export default function RegisterForms() {
     const [form, setForm] = React.useState({
