@@ -66,6 +66,9 @@ export default function TrendCard() {
   return (
     <RightDiv>
       <FollowButton 
+        data-test="follow-btn"
+        color={followRelation?"#1877F2":"#FFFFFF"}
+        background_color={followRelation?"#FFFFFF":"#1877F2"}
         disabled={followSubmitted} 
         visibility={typeof id === "string"? "": "hidden"} 
         onClick={() => {
@@ -103,8 +106,8 @@ const FollowButton = styled.button`
   width: 112px;
   border:none;
   border-radius: 5px;
-  background-color: #1877F2;
-  color:#FFFFFF;
+  color:${props => props.color};
+  background-color:${props => props.background_color};
   cursor:pointer;
   visibility:${props => props.visibility};
 `;
