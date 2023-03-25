@@ -1,9 +1,11 @@
-import styled from "styled-components"
-import { useState } from "react"
-import axios from "axios"
+import styled from "styled-components";
+import { useState, useContext } from "react";
+import { AuthContext } from "../providers/auth";
+import axios from "axios";
 
 export default function NewPost({imageUrl, headers}) {
-    // const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+
     const [link, setLink] = useState("")
     const [description, setDescription] = useState("")
 
@@ -16,9 +18,17 @@ export default function NewPost({imageUrl, headers}) {
         }
     }
 
+
+
     async function publishPost() {
+        console.log(user);
+        const postData = {
+            userId: user.user.id,
+            link,
+            description
+        }
         try {
-            axios.post('/posts/new', )
+            axios.post(`${process.env.REACT_APP_API_URL}/posts/new`, postData, headers)
         } catch (error) {
             console.log(error);
         }
